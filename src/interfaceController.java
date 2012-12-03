@@ -74,7 +74,6 @@ public class interfaceController {
 	private final JTextPane scheduleDisplay = new JTextPane();
 	private final JButton btnBackToSelector = new JButton("Back to Selector");
 	private final JPanel ProfessorPage = new JPanel();
-	private final JPanel TimePage = new JPanel();
 	private final JButton btnFindProfessor = new JButton("Find Professor");
 	private final JButton btnBackToSelector_1 = new JButton("Back to Selector");
 	private final JLabel lblCoursesThey = new JLabel("Courses They're Teaching");
@@ -651,14 +650,6 @@ public class interfaceController {
 			}
 		});
 		ProfessorPage.add(btnBackToSelector_1, gbc_btnBackToSelector_1);
-		
-		Content.add(TimePage, "name_5448293729152");
-		GridBagLayout gbl_TimePage = new GridBagLayout();
-		gbl_TimePage.columnWidths = new int[]{0};
-		gbl_TimePage.rowHeights = new int[]{0};
-		gbl_TimePage.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_TimePage.rowWeights = new double[]{Double.MIN_VALUE};
-		TimePage.setLayout(gbl_TimePage);
 		
 		Content.add(SearchResults, "name_61891547693904");
 		GridBagLayout gbl_SearchResults = new GridBagLayout();
