@@ -85,7 +85,7 @@ public class interfaceController {
 	
 	//Variables I will need to get correct information:
 	
-	private String selectedCourse;
+	//private String selectedCourse;
 	private String selectedProf;
 	private String User;
 	private final JPanel SearchResults = new JPanel();
@@ -95,6 +95,8 @@ public class interfaceController {
 	private final JLabel lblCourseNumber = new JLabel("Course Number");
 	private final JLabel lblProfessorName = new JLabel("Search for Professor");
 	private final JLabel lblSearchByTime = new JLabel("Search By Time");
+	
+	private course selectedCourse;
 	
 	/**
 	 * Launch the application.
@@ -688,6 +690,9 @@ public class interfaceController {
 			public void actionPerformed(ActionEvent e) {
 				cl_Content.show(Content, "name_6764293193015");
 				
+				//TODO - the will be removed. The course will be set some where else. 
+				boolean [] daysOfWeeKs = {true , false, true, false, false};
+				selectedCourse = new course("cse 121" , "a couse in compSci" ,1200 , 1400 , daysOfWeeKs );
 				//TODO:needs to get the professor teaching this course
 				String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
 				cProfessorList.setListData(profList);
