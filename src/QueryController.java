@@ -123,12 +123,8 @@ public class QueryController {
 	
 	public ArrayList<course> searchbyProf(String profName) throws SQLException{
 		profName =  "\"" + profName + "\"";
-	
 		String query = "SELECT * FROM COURSE WHERE cid IN (SELECT cid FROM TEACHES T, PROFESSOR P WHERE T.pid = P.pid AND P.name = " +profName + ");";
-		
-		ArrayList<course> foundCourses = findCourses(query);
-		
-		return  foundCourses;
+		return findCourses(query);
 	}
 	
 	public ArrayList<course> searchbyDepartment(String depName) throws SQLException{
