@@ -1,17 +1,24 @@
+import java.util.ArrayList;
+
 public class TeacherProfile extends Profile {
    
    public String name;
    
    public String username;
    public int id;
-   public String[] courses;
+   public ArrayList<course> courses;
    
    //Constructors
-   public TeacherProfile() { }
+   public TeacherProfile() {
+	   username = "";
+	   name = "";
+	   id = -1;
+   }
    
-   public TeacherProfile(String n, String[] coursesTaught) {
+   public TeacherProfile(String n, ArrayList<course> curr) {
       name = n;
-      courses = coursesTaught;
+      for(course c : curr)
+    	  courses.add(c);
    }
    
    //Accessors
@@ -23,7 +30,7 @@ public class TeacherProfile extends Profile {
       return id;
    }
    
-   public String[] getCourses() {
+   public ArrayList<course> getCourses() {
       return courses;
    }
    
@@ -32,7 +39,8 @@ public class TeacherProfile extends Profile {
       name = n;
    }
    
-   public void setCourses(String[] c) {
-      courses = c;
+   public void setCourses(ArrayList<course> curr) {
+	   for(course c : curr)
+		   courses.add(c);
    }   
 }

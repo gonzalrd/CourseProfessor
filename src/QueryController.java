@@ -25,8 +25,8 @@ public class QueryController {
 		//than just needs to initialize the schedule that all students will be added to
 		
 		StudentProfile curr = new StudentProfile();
-		curr.setName("\"" + userName + "\"");
-		curr.setPW("\"" + Password + "\"");
+		curr.setName(userName);
+		curr.setPW(Password);
 		
 		//set the student that logged n
 		ResultSet rs = stat.executeQuery("SELECT * FROM USER WHERE name=" + curr.getName() 
@@ -42,8 +42,8 @@ public class QueryController {
 		
 	    
 	    //LOAD THE SCHEDULE
-	    String loadSchedule = "SELECT * FROM COURSE WHERE cid IN (SELECT cid FROM SCHEDULE S, COURSE C where S.cid = C.cid AND S.sid = "+curr.getID()+");";
-		curr.setSchedule(this.findCourses(loadSchedule));
+	   String loadSchedule = "SELECT * FROM COURSE WHERE cid IN (SELECT COURSE.cid FROM SCHEDULE S, COURSE C where S.cid = C.cid AND S.sid = "+curr.getID()+");";
+	   curr.setSchedule(this.findCourses(loadSchedule));
 		
 		
 		return curr;
@@ -116,8 +116,8 @@ public class QueryController {
 	 * @throws SQLException 
 	 * 
 	 */
-	public void addNewStudent(String userName, String Password) throws SQLException{
-		stat.executeUpdate("INSERT INTO USER(null," + userName + "," +Password + ", YEAR);");	
+	public void addNewStudent(String userName, String pw) throws SQLException{
+		stat.executeUpdate("INSERT INTO USER VALUES(NULL," + userName + "," +pw+ ", \"2012\""+");");	
 	}
 	
 	
