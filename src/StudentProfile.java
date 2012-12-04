@@ -1,9 +1,12 @@
+import java.util.ArrayList;
+
 //TODO: this needs to be changed, Id is an int and it will be set after a student logs in
 public class StudentProfile extends Profile{
    
-   public String username;
-   public String password;
-   public int id;
+   private String username;
+   private String password;
+   private int id = -1;
+   private schedule studentSchedule;
    
    //Constructors
    public StudentProfile() { }
@@ -14,6 +17,9 @@ public class StudentProfile extends Profile{
       this.id = id;
    }
    
+   public schedule getSchedule(){
+	   return studentSchedule;
+   }
    //Accessors
    public int getID() {
       return id;
@@ -21,6 +27,10 @@ public class StudentProfile extends Profile{
    
    public String getPW() {
       return password;
+   }
+   
+   public String getName(){
+	   return username;
    }
    
    //"Setters"
@@ -35,5 +45,9 @@ public class StudentProfile extends Profile{
    public void setName(String name){
 	username = name;   
    }
+   
+   public void setSchedule(ArrayList<course> curr){
+	   studentSchedule = new schedule(curr);
    }
+}
    

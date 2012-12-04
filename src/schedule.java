@@ -18,6 +18,12 @@ public class schedule{
 		creditHours = 0;
 	}
 	
+	public schedule(ArrayList<course> curr){
+		for(course c : curr)
+			courses.add(c);
+		
+	}
+	
 	public void addCourse(course toAdd){
 		boolean add = true;
 		for(int i = 0; i<courses.size();i++){
