@@ -10,15 +10,15 @@ public class QueryController {
 	
 	
 	public QueryController() throws ClassNotFoundException, SQLException{
-		//intialize the information needed to create this 
+		//Initialize the information needed to create this 
 		Class.forName("org.sqlite.JDBC");
 	    Connection conn =
 	      DriverManager.getConnection("jdbc:sqlite:FinalProject.db");
 	     stat = conn.createStatement();
 	}
 	
-	/** This is adds a new student giving information from the gui 
-	 * and sets them as the student Logined in
+	/** This is adds a new student giving information from the GUI
+	 * and sets them as the student logged in
 	 * @throws SQLException 
 	 * 
 	 */
@@ -66,6 +66,34 @@ public class QueryController {
 		
 		studentSchedule.addCourse(c);
 		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + curStudent.getID() +"," + c.getCourseId() + ");");
+	}
+	
+	/**runs the query that returns a list of courses given the 
+	 * subject selected by the query.
+	 * @param subject
+	 * @return
+	 * @throws SQLException 
+	 */
+	public ArrayList<course> searchBySubject(String subject) throws SQLException{
+		
+		subject =  "\"" + subject + "\"";
+		ArrayList<course> foundCourses = new ArrayList<course>();
+		int count = 0;
+		
+		 ResultSet rs = stat.executeQuery("SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";");
+		    while (rs.next()) {
+		      course fd = new course();
+		      
+		      
+		    }
+		    rs.close();
+		
+		
+		
+		
+		
+		return foundCourses;
+		
 	}
 	
 	
