@@ -3,6 +3,7 @@ public class TeacherProfile extends Profile {
    public String name;
    
    public String username;
+   public int id;
    public String[] courses;
    
    //Constructors
@@ -18,8 +19,8 @@ public class TeacherProfile extends Profile {
       return name;
    }
    
-   public String getID() {
-      return username;
+   public int getID() {
+      return id;
    }
    
    public String[] getCourses() {

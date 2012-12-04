@@ -37,6 +37,8 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.sql.SQLException;
+
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 
@@ -136,12 +138,18 @@ public class interfaceController {
 
 	/**
 	 * Create the application.
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
 	 */
 	
 	//TODO: Create here instance of the classes that will hold information
 	//this will include Course, Professor, User, Schedule(the ones they made)
-	public interfaceController() {
+	public interfaceController() throws SQLException, ClassNotFoundException {
 		initialize();
+		
+		QueryController qc = new QueryController();
+		
+		qc.searchBySubject("Mathematics");
 	}
 
 	/**

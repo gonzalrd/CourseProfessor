@@ -97,9 +97,9 @@ public class QueryController {
 		    rs.close();
 		//TODO need to add getting the days of the week, have to convert from bools to ints
 		
-		
-		
-		
+		for(int i = 0; i < foundCourses.size(); i++ ){
+		System.out.println(foundCourses.get(i).getCourseName());
+		}
 		return foundCourses;
 		
 	}
