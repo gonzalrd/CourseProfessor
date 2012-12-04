@@ -1,19 +1,22 @@
+//TODO: this needs to be changed, Id is an int and it will be set after a student logs in
 public class StudentProfile extends Profile{
    
    public String username;
    public String password;
+   public int id;
    
    //Constructors
    public StudentProfile() { }
    
-   public StudentProfile(String id, String pw) {
-      username = id;
+   public StudentProfile(String name, String pw, int id) {
+      username = name;
       password = pw;
+      this.id = id;
    }
    
    //Accessors
-   public String getID() {
-      return username;
+   public int getID() {
+      return id;
    }
    
    public String getPW() {
@@ -21,12 +24,17 @@ public class StudentProfile extends Profile{
    }
    
    //"Setters"
-   public void setID(String id) {
-      username = id;
+   public void setID(int id) {
+      this.id = id;
    }
    
    public void setPW(String pw) {
       password = pw;
+   }
+   
+   public void setName(String name){
+	username = name;   
+   }
    }
    
 }

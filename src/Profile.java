@@ -5,6 +5,6 @@ abstract class Profile {
    
    
    //Abstract Methods
-   abstract String getID();
+   abstract int getID();
    
 }

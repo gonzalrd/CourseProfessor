@@ -1,10 +1,12 @@
 import java.sql.*;
+import java.util.ArrayList;
 
 public class QueryController {
 //This class handles running the queries. the Interface will pass information to this class.
-	  Statement stat;
-	  StudentProfile curStudent; //this is the current student that is loged in that we will run the queries with
-	  schedule studentSchdule;
+	 private Statement stat;
+	 private StudentProfile curStudent; //this is the current student that is loged in that we will run the queries with
+	 private schedule studentSchedule;
+	 private boolean newStudent = false;
 	
 	
 	public QueryController() throws ClassNotFoundException, SQLException{
@@ -24,21 +26,38 @@ public class QueryController {
 		
 		stat.executeUpdate("INSERT INTO USER(null," + userName + "," +Password + ", YEAR);");
 		
+		newStudent = true;
+		
 	}
 
 	/**This class handles setting up what happens after a student logs in. This includes getting the current schedule and
 	 * setting that student to the login one.
 	 */
-	public void loggedIn(StudentProfile s , ){
+	public void loggedIn(StudentProfile s ){
+		//TODO: needs a query that gets all the courses a student is currently taking. if this student 
+		//than just needs to initialize the schedule that all students will be added to
+		studentSchedule = new schedule();
 		
+		if(!newStudent){
+		//query will have to be run here in a while loop
+			course inSchdule = new course();//this is to get course for a student that is not new and already has a schedule currently loading in the database
+			studentSchedule.addCourse(inSchdule);		
+		}
 		
 	}
 	
-	public void couseToSchedule(course c , StudentProfile s){
+	/** Adds a new course into the students schedule that is kept track of in java and the database
+	 * 
+	 * @param c
+	 * @throws SQLException
+	 */
+	public void addCourseToSchedule(course c ) throws SQLException{
 		
-		
-		
+		studentSchedule.addCourse(c);
+		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + curStudent.getID() +"," + c.getCourseId() + ");");
 	}
+	
+	
 	
 
 }
