@@ -75,13 +75,6 @@ public class interfaceController {
 	private final JButton btnGoBackTo = new JButton("Go Back to Course Selection");
 	private final JTextPane scheduleDisplay = new JTextPane();
 	private final JButton btnBackToSelector = new JButton("Back to Selector");
-	private final JPanel ProfessorPage = new JPanel();
-	private final JButton btnBackToSelector_1 = new JButton("Back to Selector");
-	private final JLabel lblCoursesThey = new JLabel("Courses They're Teaching");
-	private final JTextPane pViewFeedBack = new JTextPane();
-	private final JLabel lblOtherUserFeedback = new JLabel("Other User Feedback");
-	private final JButton btnViewCourse = new JButton("View Course");
-	private final JList pCourseList = new JList();
 	
 	
 	//Variables I will need to get correct information:
@@ -651,76 +644,6 @@ public class interfaceController {
 		});
 		Schedule.add(btnGoBackTo, gbc_btnGoBackTo);
 		
-		Content.add(ProfessorPage, "ProfessorPage");
-		GridBagLayout gbl_ProfessorPage = new GridBagLayout();
-		gbl_ProfessorPage.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_ProfessorPage.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_ProfessorPage.columnWeights = new double[]{1.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_ProfessorPage.rowWeights = new double[]{1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		ProfessorPage.setLayout(gbl_ProfessorPage);
-		
-		GridBagConstraints gbc_lblCoursesThey = new GridBagConstraints();
-		gbc_lblCoursesThey.gridwidth = 6;
-		gbc_lblCoursesThey.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCoursesThey.gridx = 1;
-		gbc_lblCoursesThey.gridy = 1;
-		ProfessorPage.add(lblCoursesThey, gbc_lblCoursesThey);
-		
-		GridBagConstraints gbc_btnViewCourse = new GridBagConstraints();
-		gbc_btnViewCourse.insets = new Insets(0, 0, 5, 0);
-		gbc_btnViewCourse.gridx = 12;
-		gbc_btnViewCourse.gridy = 4;
-		btnViewCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "CoursePage");
-				
-				//TODO:needs to get the professor teaching this course
-				String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
-				cProfessorList.setListData(profList);
-				
-				//TODO:needs to get the times this course is being offered and put them in the cTimeList Jlist.
-				
-				String [] times = {" MWF 1:00-2:15" , "TR 3:00 - 5:15" };
-				cTimeList.setListData(times);
-			}
-		});
-		
-		GridBagConstraints gbc_pCourseList = new GridBagConstraints();
-		gbc_pCourseList.gridheight = 5;
-		gbc_pCourseList.gridwidth = 7;
-		gbc_pCourseList.insets = new Insets(0, 0, 5, 5);
-		gbc_pCourseList.fill = GridBagConstraints.BOTH;
-		gbc_pCourseList.gridx = 1;
-		gbc_pCourseList.gridy = 2;
-		ProfessorPage.add(pCourseList, gbc_pCourseList);
-		ProfessorPage.add(btnViewCourse, gbc_btnViewCourse);
-		
-		GridBagConstraints gbc_lblOtherUserFeedback = new GridBagConstraints();
-		gbc_lblOtherUserFeedback.gridwidth = 5;
-		gbc_lblOtherUserFeedback.insets = new Insets(0, 0, 5, 5);
-		gbc_lblOtherUserFeedback.gridx = 1;
-		gbc_lblOtherUserFeedback.gridy = 7;
-		ProfessorPage.add(lblOtherUserFeedback, gbc_lblOtherUserFeedback);
-		
-		GridBagConstraints gbc_pViewFeedBack = new GridBagConstraints();
-		gbc_pViewFeedBack.gridwidth = 7;
-		gbc_pViewFeedBack.gridheight = 4;
-		gbc_pViewFeedBack.insets = new Insets(0, 0, 5, 5);
-		gbc_pViewFeedBack.fill = GridBagConstraints.BOTH;
-		gbc_pViewFeedBack.gridx = 1;
-		gbc_pViewFeedBack.gridy = 8;
-		ProfessorPage.add(pViewFeedBack, gbc_pViewFeedBack);
-		
-		GridBagConstraints gbc_btnBackToSelector_1 = new GridBagConstraints();
-		gbc_btnBackToSelector_1.gridx = 12;
-		gbc_btnBackToSelector_1.gridy = 12;
-		btnBackToSelector_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_107515968515780");
-			}
-		});
-		ProfessorPage.add(btnBackToSelector_1, gbc_btnBackToSelector_1);
-		
 		Content.add(SearchResults, "SearchResults");
 		GridBagLayout gbl_SearchResults = new GridBagLayout();
 		gbl_SearchResults.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -756,6 +679,10 @@ public class interfaceController {
 			//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 			
 			public void actionPerformed(ActionEvent e) {
+				
+				int selectedIndex = resultslist.getSelectedIndex();
+				
+				course selectedCourse = foundCourses.get(selectedIndex);
 				cl_Content.show(Content, "CoursePage");
 				//TODO use method in QueryController to do search
 				

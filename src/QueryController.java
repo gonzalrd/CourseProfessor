@@ -141,5 +141,12 @@ public class QueryController {
 		return  foundCourses;
 	}
 	
+	public String getCourseFeedBack(course c){
+		String feedback = "Need Query for this.";
+		
+		
+		return feedback;
+	}
+	
 
 }
