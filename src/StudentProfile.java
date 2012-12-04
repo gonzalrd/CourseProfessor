@@ -5,11 +5,15 @@ public class StudentProfile extends Profile{
    
    private String username;
    private String password;
-   private int id = -1;
+   private int id;
    private schedule studentSchedule;
    
    //Constructors
-   public StudentProfile() { }
+   public StudentProfile() {
+	   id = -1;
+	   username ="";
+	   password="";
+   }
    
    public StudentProfile(String name, String pw, int id) {
       username = name;
