@@ -104,7 +104,7 @@ public class QueryController {
 		String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";";
 		ArrayList<course> foundCourses = findCourses(query);
 		
-		System.out.println(foundCourses.get(0).getCourseName());
+		
 	
 		return foundCourses;
 		
@@ -118,6 +118,27 @@ public class QueryController {
 		//TODO write implementation
 		
 		return daysTF;
+	}
+	
+	public ArrayList<course> searchbyProf(String profName) throws SQLException{
+		profName =  "\"" + profName + "\"";
+	
+		String query = "SELECT * FROM COURSE WHERE cid IN (SELECT cid FROM TEACHES T, PROFESSOR P WHERE T.pid = P.pid AND P.name = " +profName + ");";
+		
+		ArrayList<course> foundCourses = findCourses(query);
+		
+		return  foundCourses;
+	}
+	
+	public ArrayList<course> searchbyDepartment(String depName) throws SQLException{
+		//TODO: need to test this department
+		depName =  "\"" + depName + "\"";
+	
+		String query = "SELECT * FROM COURSE WHERE department=" + depName + ";";
+		
+		ArrayList<course> foundCourses = findCourses(query);
+		
+		return  foundCourses;
 	}
 	
 

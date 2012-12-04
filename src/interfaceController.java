@@ -38,6 +38,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
@@ -103,22 +104,24 @@ public class interfaceController {
 	private final JButton btnLogin = new JButton("Login");
 	private final JPanel byCourseContainer = new JPanel();
 	private final JLabel lblSelectADepartment = new JLabel("Select a Department:");
-	private final JComboBox comboBox = new JComboBox();
+	private final JComboBox subjectBox = new JComboBox();
 	private final JLabel lblCourseNumber = new JLabel("Course Number:");
-	private final JFormattedTextField textField = new JFormattedTextField();
+	private final JFormattedTextField courseNumField = new JFormattedTextField();
 	private final JLabel lblEnterStartTime = new JLabel("Enter Start Time:");
-	private final JFormattedTextField formattedTextField = new JFormattedTextField();
+	private final JFormattedTextField startTimeText = new JFormattedTextField();
 	private final JButton btnFindCourses = new JButton("Find Courses...");
 	private final JLabel lblSearchForCourses = new JLabel("Search by Course");
 	private final JLabel lblSearchByProfessor = new JLabel("Search by Professor");
 	private final JPanel byProfessorContainer = new JPanel();
 	private final JLabel lblProfessorsLastname = new JLabel("Professor's Lastname:");
-	private final JTextField textField_1 = new JTextField();
-	private final JButton btnFindCourses_1 = new JButton("Find Courses...");
+	private final JTextField profNametxt = new JTextField();
+	private final JButton btnFindProf_1 = new JButton("Find Professor..");
 	private final JButton btnViewSchedule = new JButton("View Schedule");
 	private final JButton btnLogout = new JButton("Logout");
 	private final Component horizontalStrut = Box.createHorizontalStrut(20);
 	
+	private ArrayList<course> foundCourses;
+	private QueryController qc;
 	
 	/**
 	 * Launch the application.
@@ -147,9 +150,8 @@ public class interfaceController {
 	public interfaceController() throws SQLException, ClassNotFoundException {
 		initialize();
 		
-		QueryController qc = new QueryController();
+		 qc = new QueryController();
 		
-		qc.searchBySubject("Mathematics");
 	}
 
 	/**
@@ -259,14 +261,14 @@ public class interfaceController {
 		lblSelectADepartment.setBorder(new EmptyBorder(5, 5, 0, 0));
 		byCourseContainer.add(lblSelectADepartment, gbc_lblSelectADepartment);
 		
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 5, 5, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 0;
-		gbc_comboBox.gridy = 1;
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Business (BUS)", "Computer Science (CSE)", "Marketing (MKT)", "Statistics (STA)", "Mathematics (MTH)"}));
-		byCourseContainer.add(comboBox, gbc_comboBox);
+		GridBagConstraints gbc_subjectBox = new GridBagConstraints();
+		gbc_subjectBox.gridwidth = 3;
+		gbc_subjectBox.insets = new Insets(0, 5, 5, 5);
+		gbc_subjectBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_subjectBox.gridx = 0;
+		gbc_subjectBox.gridy = 1;
+		subjectBox.setModel(new DefaultComboBoxModel(new String[] {"Business", "Computer Science", "Marketing", "Statistics", "Mathematics"}));
+		byCourseContainer.add(subjectBox, gbc_subjectBox);
 		
 		GridBagConstraints gbc_lblCourseNumber = new GridBagConstraints();
 		gbc_lblCourseNumber.anchor = GridBagConstraints.EAST;
@@ -275,15 +277,15 @@ public class interfaceController {
 		gbc_lblCourseNumber.gridy = 2;
 		lblCourseNumber.setBorder(new EmptyBorder(0, 5, 0, 0));
 		byCourseContainer.add(lblCourseNumber, gbc_lblCourseNumber);
-		textField.setColumns(10);
+		courseNumField.setColumns(10);
 		
-		GridBagConstraints gbc_textField = new GridBagConstraints();
-		gbc_textField.gridwidth = 2;
-		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField.insets = new Insets(0, 0, 5, 5);
-		gbc_textField.gridx = 1;
-		gbc_textField.gridy = 2;
-		byCourseContainer.add(textField, gbc_textField);
+		GridBagConstraints gbc_courseNumField = new GridBagConstraints();
+		gbc_courseNumField.gridwidth = 2;
+		gbc_courseNumField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_courseNumField.insets = new Insets(0, 0, 5, 5);
+		gbc_courseNumField.gridx = 1;
+		gbc_courseNumField.gridy = 2;
+		byCourseContainer.add(courseNumField, gbc_courseNumField);
 		
 		GridBagConstraints gbc_lblEnterStartTime = new GridBagConstraints();
 		gbc_lblEnterStartTime.anchor = GridBagConstraints.EAST;
@@ -292,13 +294,13 @@ public class interfaceController {
 		gbc_lblEnterStartTime.gridy = 3;
 		byCourseContainer.add(lblEnterStartTime, gbc_lblEnterStartTime);
 		
-		GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
-		gbc_formattedTextField.gridwidth = 2;
-		gbc_formattedTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
-		gbc_formattedTextField.gridx = 1;
-		gbc_formattedTextField.gridy = 3;
-		byCourseContainer.add(formattedTextField, gbc_formattedTextField);
+		GridBagConstraints gbc_startTimeText = new GridBagConstraints();
+		gbc_startTimeText.gridwidth = 2;
+		gbc_startTimeText.insets = new Insets(0, 0, 5, 5);
+		gbc_startTimeText.fill = GridBagConstraints.HORIZONTAL;
+		gbc_startTimeText.gridx = 1;
+		gbc_startTimeText.gridy = 3;
+		byCourseContainer.add(startTimeText, gbc_startTimeText);
 		
 		GridBagConstraints gbc_btnFindCourses = new GridBagConstraints();
 		gbc_btnFindCourses.gridwidth = 2;
@@ -340,23 +342,28 @@ public class interfaceController {
 		gbc_lblProfessorsLastname.gridy = 0;
 		lblProfessorsLastname.setBorder(new EmptyBorder(5, 5, 0, 0));
 		byProfessorContainer.add(lblProfessorsLastname, gbc_lblProfessorsLastname);
-		textField_1.setColumns(10);
+		profNametxt.setColumns(10);
 		
-		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
-		gbc_textField_1.gridwidth = 3;
-		gbc_textField_1.insets = new Insets(0, 5, 5, 5);
-		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
-		gbc_textField_1.gridx = 0;
-		gbc_textField_1.gridy = 1;
-		byProfessorContainer.add(textField_1, gbc_textField_1);
+		GridBagConstraints gbc_profNametxt = new GridBagConstraints();
+		gbc_profNametxt.gridwidth = 3;
+		gbc_profNametxt.insets = new Insets(0, 5, 5, 5);
+		gbc_profNametxt.fill = GridBagConstraints.HORIZONTAL;
+		gbc_profNametxt.gridx = 0;
+		gbc_profNametxt.gridy = 1;
+		byProfessorContainer.add(profNametxt, gbc_profNametxt);
 		
-		GridBagConstraints gbc_btnFindCourses_1 = new GridBagConstraints();
-		gbc_btnFindCourses_1.gridwidth = 2;
-		gbc_btnFindCourses_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnFindCourses_1.anchor = GridBagConstraints.EAST;
-		gbc_btnFindCourses_1.gridx = 1;
-		gbc_btnFindCourses_1.gridy = 2;
-		byProfessorContainer.add(btnFindCourses_1, gbc_btnFindCourses_1);
+		GridBagConstraints gbc_btnFindProf_1 = new GridBagConstraints();
+		gbc_btnFindProf_1.gridwidth = 2;
+		gbc_btnFindProf_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnFindProf_1.anchor = GridBagConstraints.EAST;
+		gbc_btnFindProf_1.gridx = 1;
+		gbc_btnFindProf_1.gridy = 2;
+		btnFindProf_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				cl_Content.show(Content, "ProfessorPage");
+			}
+		});
+		byProfessorContainer.add(btnFindProf_1, gbc_btnFindProf_1);
 		
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
 		gbc_horizontalStrut.gridwidth = 2;
@@ -382,7 +389,6 @@ public class interfaceController {
 		
 		
 		//TODO added in method that gets what should be in this list box.
-		String [] sublist = {"cse", "mth", "sta"};
 		
 		Content.add(CoursePage, "CoursePage");
 		GridBagLayout gbl_CoursePage = new GridBagLayout();
@@ -612,7 +618,7 @@ public class interfaceController {
 		});
 		Schedule.add(btnGoBackTo, gbc_btnGoBackTo);
 		
-		Content.add(ProfessorPage, "name_5422214919347");
+		Content.add(ProfessorPage, "ProfessorPage");
 		GridBagLayout gbl_ProfessorPage = new GridBagLayout();
 		gbl_ProfessorPage.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_ProfessorPage.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -754,8 +760,32 @@ public class interfaceController {
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			
+			
+				 try {
+					foundCourses = qc.searchBySubject( subjectBox.getSelectedItem().toString());
+				} catch (SQLException e1) {
+					// TODO BetterWasy of Handling this error
+					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
+				}
+				
+			
+			if( foundCourses !=null){
+			String [] found = new String[foundCourses.size()];
+			for(int i = 0; i < foundCourses.size(); i++){
+				
+				found[i] = foundCourses.get(i).getCourseName();
+			}
+			
+			if(found !=null){
+			resultslist.setListData(found);
+			}
+			
+			}
+			
 			cl_Content.show(Content, "SearchResults");
 			frame.setSize(new Dimension(500,445));
+			
 		}
 	}
 }
