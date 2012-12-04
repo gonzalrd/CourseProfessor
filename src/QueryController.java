@@ -62,8 +62,8 @@ public class QueryController {
 	 * @param c
 	 * @throws SQLException
 	 */
-	public void addCourseToSchedule(course c ) throws SQLException
-	
+	public void addCourseToSchedule(course c ) throws SQLException{
+		
 		studentSchedule.addCourse(c);
 		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + curStudent.getID() +"," + c.getCourseId() + ");");
 	}
@@ -141,18 +141,10 @@ public class QueryController {
 		return  foundCourses;
 	}
 	
-	public ArrayList<TeacherProfile> teaches(String courseName) throws SQLException{
+	//public ArrayList<TeacherProfile> teaches (String courseName){
 		
 		
-		ArrayList<TeacherProfile> teaches  = new ArrayList<TeacherProfile>();
-		ResultSet rs = stat.executeQuery("SELECT * FROM PROFESSOR WHERE pid IN (SELECT pid FROM TEACHES T, COURSE C where T.cid = C.cid AND C.name = "+ courseName + ");");
-
-	    while (rs.next()) {
-		 
-	    }
-		return teaches;
-		
-	}
+	//}
 	
 	public String getCourseFeedBack(course c){
 		String feedback = "Need Query for this.";
