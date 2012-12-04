@@ -113,15 +113,16 @@ public class interfaceController {
 	private final JLabel lblSearchForCourses = new JLabel("Search by Course");
 	private final JLabel lblSearchByProfessor = new JLabel("Search by Professor");
 	private final JPanel byProfessorContainer = new JPanel();
-	private final JLabel lblProfessorsLastname = new JLabel("Professor's Lastname:");
+	private final JLabel lblProfessorsLastname = new JLabel("Professor's  full name:");
 	private final JTextField profNametxt = new JTextField();
-	private final JButton btnFindProf_1 = new JButton("Find Professor..");
+	private final JButton btnFindProf_1 = new JButton("Find Courses..");
 	private final JButton btnViewSchedule = new JButton("View Schedule");
 	private final JButton btnLogout = new JButton("Logout");
 	private final Component horizontalStrut = Box.createHorizontalStrut(20);
 	
 	private ArrayList<course> foundCourses;
 	private QueryController qc;
+	private final JButton btnsBacktoSelector = new JButton("BackToSelector");
 	
 	/**
 	 * Launch the application.
@@ -267,6 +268,7 @@ public class interfaceController {
 		gbc_subjectBox.fill = GridBagConstraints.HORIZONTAL;
 		gbc_subjectBox.gridx = 0;
 		gbc_subjectBox.gridy = 1;
+		//TODO: need to get all subject in database to poputlate this is the main. but that will be later
 		subjectBox.setModel(new DefaultComboBoxModel(new String[] {"Business", "Computer Science", "Marketing", "Statistics", "Mathematics"}));
 		byCourseContainer.add(subjectBox, gbc_subjectBox);
 		
@@ -360,9 +362,40 @@ public class interfaceController {
 		gbc_btnFindProf_1.gridy = 2;
 		btnFindProf_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				cl_Content.show(Content, "ProfessorPage");
+				
+				 try {
+					foundCourses = qc.searchbyProf( profNametxt.getText());
+				} catch (SQLException e1) {
+					// TODO BetterWasy of Handling this error
+					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
+				}
+				
+			//Do this to add found courses to string on next page.
+			if( foundCourses !=null){
+			String [] found = new String[foundCourses.size()];
+			for(int i = 0; i < foundCourses.size(); i++){
+				
+				found[i] = foundCourses.get(i).getCourseName();
 			}
-		});
+			
+			if(found !=null){
+			resultslist.setListData(found);
+			
+			}
+			
+			//IF THE SEARCH DID NOT FIND ANYTHING
+			else{String found1 [] = {"professor does not exist in system"}; 
+			resultslist.setListData(found1);
+			}
+			}
+			
+			cl_Content.show(Content, "SearchResults");
+				cl_Content.show(Content, "SearchResults");
+				
+			}
+			}
+			
+		);
 		byProfessorContainer.add(btnFindProf_1, gbc_btnFindProf_1);
 		
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -729,6 +762,18 @@ public class interfaceController {
 			}
 		});
 		SearchResults.add(btnViewSelectedCo, gbc_btnViewSelectedCo);
+		
+		GridBagConstraints gbc_btnsBacktoSelector = new GridBagConstraints();
+		gbc_btnsBacktoSelector.gridwidth = 2;
+		gbc_btnsBacktoSelector.insets = new Insets(0, 0, 5, 5);
+		gbc_btnsBacktoSelector.gridx = 12;
+		gbc_btnsBacktoSelector.gridy = 8;
+		btnsBacktoSelector.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_Content.show(Content, "findCourses");
+			}
+		});
+		SearchResults.add(btnsBacktoSelector, gbc_btnsBacktoSelector);
 	}
 	
 	private class BtnLoginActionListener implements ActionListener {
@@ -760,8 +805,21 @@ public class interfaceController {
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+				
 			
-			
+				//then search by on of these
+				if(!courseNumField.getText().isEmpty()){
+					int courseNum = Integer.parseInt(courseNumField.getText());
+				}
+				
+				//
+				if(!startTimeText.getText().isEmpty()){
+					int startTime = Integer.parseInt(startTimeText.getText());
+				}
+				
+				//TODO: need query that will search for all three to subject and time and courseNum and time
+				
+				//Search Only by Subject
 				 try {
 					foundCourses = qc.searchBySubject( subjectBox.getSelectedItem().toString());
 				} catch (SQLException e1) {
@@ -769,7 +827,7 @@ public class interfaceController {
 					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
 				}
 				
-			
+			//Do this to add found courses to string on next page.
 			if( foundCourses !=null){
 			String [] found = new String[foundCourses.size()];
 			for(int i = 0; i < foundCourses.size(); i++){
