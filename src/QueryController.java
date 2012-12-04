@@ -32,10 +32,21 @@ public class QueryController {
 
 	/**This class handles setting up what happens after a student logs in. This includes getting the current schedule and
 	 * setting that student to the login one.
+	 * @throws SQLException 
 	 */
-	public void loggedIn(StudentProfile s ){
+	public void loggedIn(String userName, String Password ) throws SQLException{
 		//TODO: needs a query that gets all the courses a student is currently taking. if this student 
 		//than just needs to initialize the schedule that all students will be added to
+		 userName = "\"" + userName + "\"";
+		 Password =  "\"" + Password + "\"";
+		
+		//set the student that logged n
+		 ResultSet rs = stat.executeQuery("SELECT * FROM USER WHERE name=" + userName + " AND password= " + Password + ";");
+		    while (rs.next()) {
+		      int id = rs.getInt("sid");
+		    }
+		    rs.close();
+		
 		studentSchedule = new schedule();
 		
 		if(!newStudent){
