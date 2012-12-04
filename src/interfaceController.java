@@ -379,6 +379,7 @@ public class interfaceController {
 			//IF THE SEARCH DID NOT FIND ANYTHING
 			else{String found1 [] = {"professor does not exist in system"}; 
 			resultslist.setListData(found1);
+			
 			}
 			}
 			
@@ -402,8 +403,12 @@ public class interfaceController {
 		gbc_btnViewSchedule.insets = new Insets(0, 0, 0, 5);
 		gbc_btnViewSchedule.gridx = 0;
 		gbc_btnViewSchedule.gridy = 9;
+		btnViewSchedule.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cl_Content.show(Content, "Schedule");
+			}
+		});
 		courseSelection.add(btnViewSchedule, gbc_btnViewSchedule);
-		
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
 		gbc_btnLogout.gridx = 1;
 		gbc_btnLogout.gridy = 9;
@@ -445,7 +450,8 @@ public class interfaceController {
 		gbc_cProfessorList.gridx = 0;
 		gbc_cProfessorList.gridy = 2;
 		cProfessorList.addListSelectionListener(new ListSelectionListener() {
-			//TODO: Needs to run query/or use method that does and change what the feedback says based on query and times
+			//TODO: Needs to run query or use method that does and 
+			//change what the feedback says based on query and times
 			public void valueChanged(ListSelectionEvent arg0) {
 				
 				//this would run method that gets the feedback for a course and professor and push that feedback into
@@ -681,6 +687,8 @@ public class interfaceController {
 			public void actionPerformed(ActionEvent e) {
 				
 				int selectedIndex = resultslist.getSelectedIndex();
+				
+
 				
 				course selectedCourse = foundCourses.get(selectedIndex);
 				cl_Content.show(Content, "CoursePage");

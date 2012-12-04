@@ -141,6 +141,11 @@ public class QueryController {
 		return  foundCourses;
 	}
 	
+	//public ArrayList<TeacherProfile> teaches (String courseName){
+		
+		
+	//}
+	
 	public String getCourseFeedBack(course c){
 		String feedback = "Need Query for this.";
 		
