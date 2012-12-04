@@ -67,6 +67,29 @@ public class QueryController {
 		studentSchedule.addCourse(c);
 		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + curStudent.getID() +"," + c.getCourseId() + ");");
 	}
+	//helper method that finds and creates an arraylist of course given a qeury.
+	public ArrayList<course> findCourses(String query) throws SQLException{
+		ArrayList<course> foundCourses = new ArrayList<course>();
+		
+		 ResultSet rs = stat.executeQuery(query);
+		    while (rs.next()) {
+		      course fd = new course();
+		      
+		      fd.setCourseId(rs.getInt("cid"));
+		      fd.setCourseName(rs.getString("name"));
+		      fd.setDepartment(rs.getString("department"));
+		      fd.setCourseDescription(rs.getString("description"));
+		      fd.setStartTime(rs.getInt("beginTime"));
+		      fd.setEndTime( rs.getInt("endTime"));
+		      
+		      foundCourses.add(fd);
+		    
+		    }
+		    rs.close();
+			return foundCourses;
+		
+		
+	}
 	
 	/**runs the query that returns a list of courses given the 
 	 * subject selected by the query.
@@ -77,29 +100,12 @@ public class QueryController {
 	public ArrayList<course> searchBySubject(String subject) throws SQLException{
 		//TODO: need to test this department
 		subject =  "\"" + subject + "\"";
-		ArrayList<course> foundCourses = new ArrayList<course>();
 		
-		 ResultSet rs = stat.executeQuery("SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";");
-		    while (rs.next()) {
-		      course fd = new course();
-		      
-		      fd.setCourseId(rs.getInt("cid"));
-		      fd.setCourseName(rs.getString("name"));
-		      fd.setDepartment(rs.getString("department"));
-		      fd.setStartTime(rs.getInt("beginTime"));
-		      fd.setEndTime( rs.getInt("endTime"));
-		      
-		      foundCourses.add(fd);
-		      
-		      
-		    
-		    }
-		    rs.close();
-		//TODO need to add getting the days of the week, have to convert from bools to ints
+		String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";";
+		ArrayList<course> foundCourses = findCourses(query);
 		
-		for(int i = 0; i < foundCourses.size(); i++ ){
-		System.out.println(foundCourses.get(i).getCourseName());
-		}
+		System.out.println(foundCourses.get(0).getCourseName());
+	
 		return foundCourses;
 		
 	}
@@ -113,7 +119,6 @@ public class QueryController {
 		
 		return daysTF;
 	}
-	
 	
 
 }
