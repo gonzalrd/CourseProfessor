@@ -77,18 +77,11 @@ public class interfaceController {
 	private final JButton btnBackToSelector = new JButton("Back to Selector");
 	
 	
-	//Variables I will need to get correct information:
-	
-	//private String selectedCourse;
-	private String selectedProf;
-	private String User;
+	//Variables I will need to get correct information:	
 	private final JPanel SearchResults = new JPanel();
 	private final JButton btnViewSelectedCo = new JButton("View Selected Course");
 	private final JList resultslist = new JList();
 	private final JLabel resultsLabel = new JLabel("Course Search Results");
-	
-	private course selectedCourse;
-	
 	private final JLabel lblUsername = new JLabel("Username:");
 	private final JTextField UserNameTxt = new JTextField();
 	private final JLabel lblPassword = new JLabel("Password:");
@@ -113,7 +106,12 @@ public class interfaceController {
 	private final JButton btnLogout = new JButton("Logout");
 	private final Component horizontalStrut = Box.createHorizontalStrut(20);
 	
-	private ArrayList<course> foundCourses;
+	
+	
+	//LOGIC VARIABLES
+	private StudentProfile user = new StudentProfile();
+	private course viewCourse;
+	private ArrayList<course> coursesOfProfessor;
 	private QueryController qc;
 	private final JButton btnsBacktoSelector = new JButton("BackToSelector");
 	
@@ -142,10 +140,8 @@ public class interfaceController {
 	//TODO: Create here instance of the classes that will hold information
 	//this will include Course, Professor, User, Schedule(the ones they made)
 	public interfaceController() throws SQLException, ClassNotFoundException {
+		qc = new QueryController();
 		initialize();
-		
-		 qc = new QueryController();
-		
 	}
 
 	/**
@@ -355,41 +351,31 @@ public class interfaceController {
 		gbc_btnFindProf_1.gridy = 2;
 		btnFindProf_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				 try {
-					foundCourses = qc.searchbyProf( profNametxt.getText());
+				try {
+					coursesOfProfessor = qc.searchbyProf(profNametxt.getText());
 				} catch (SQLException e1) {
 					// TODO BetterWasy of Handling this error
 					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
 				}
 				
 			//Do this to add found courses to string on next page.
-			if( foundCourses !=null){
-			String [] found = new String[foundCourses.size()];
-			for(int i = 0; i < foundCourses.size(); i++){
+			if(coursesOfProfessor!=null){
+				String [] found = new String[coursesOfProfessor.size()];
 				
-				found[i] = foundCourses.get(i).getCourseName();
+				for(int i = 0; i < coursesOfProfessor.size(); i++)
+					found[i] = coursesOfProfessor.get(i).getCourseName();
+
+				if(found !=null)
+					resultslist.setListData(found);
+				else{
+					String found1 [] = {"professor does not exist in system"}; 
+					resultslist.setListData(found1);
+				}
 			}
-			
-			if(found !=null){
-			resultslist.setListData(found);
-			
-			}
-			
-			//IF THE SEARCH DID NOT FIND ANYTHING
-			else{String found1 [] = {"professor does not exist in system"}; 
-			resultslist.setListData(found1);
-			
-			}
-			}
-			
 			cl_Content.show(Content, "SearchResults");
-				cl_Content.show(Content, "SearchResults");
-				
 			}
-			}
-			
-		);
+		});
+		
 		byProfessorContainer.add(btnFindProf_1, gbc_btnFindProf_1);
 		
 		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
@@ -685,15 +671,10 @@ public class interfaceController {
 			//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 			
 			public void actionPerformed(ActionEvent e) {
-				
-				int selectedIndex = resultslist.getSelectedIndex();
-				
-
-				
-				course selectedCourse = foundCourses.get(selectedIndex);
+				int selectedIndex = resultslist.getSelectedIndex();			
+				viewCourse = coursesOfProfessor.get(selectedIndex);
 				cl_Content.show(Content, "CoursePage");
 				//TODO use method in QueryController to do search
-				
 			}
 		});
 		SearchResults.add(btnViewSelectedCo, gbc_btnViewSelectedCo);
@@ -713,23 +694,50 @@ public class interfaceController {
 	
 	private class BtnLoginActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			String Password = "";
-			User = UserNameTxt.getText();
-			Password = PassTxt.getText();
+			try {
+				
+				char[] pass = PassTxt.getPassword();
+				String pw = new String(pass);
+				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				//JOPTIONPANE ERROR
+			}
 			
-			cl_Content.show(Content, "findCourses");
-			frame.setSize(new Dimension(313,380));
+			if(user.getID()==-1){
+				System.out.println("ERROR");
+				//JOPTIONPANE USER NOT FOUND TRY AGAIN
+			}else{
+				cl_Content.show(Content, "findCourses");
+				frame.setSize(new Dimension(313,380));
+			}
 		}
 	}
 	private class BtnRegisterActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			String Password = "";
-			User = UserNameTxt.getText();
-			Password = PassTxt.getText();
+			try {
+				char[] pass = PassTxt.getPassword();
+				String pw = new String(pass);
+				
+				qc.addNewStudent("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+				
+				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				//Student couldn't be added
+			}
+			
 			//TODO check for already in use and send error message
 			
-			cl_Content.show(Content, "findCourses");
-			frame.setSize(new Dimension(313,380));
+			if(user.getID()==-1){
+				System.out.println("ERROR");
+				//JOPTIONPANE USER NOT FOUND TRY AGAIN
+			}else{
+				cl_Content.show(Content, "findCourses");
+				frame.setSize(new Dimension(313,380));
+			}
 		}
 	}
 	private class BtnLogoutActionListener implements ActionListener {
@@ -756,18 +764,18 @@ public class interfaceController {
 				
 				//Search Only by Subject
 				 try {
-					foundCourses = qc.searchBySubject( subjectBox.getSelectedItem().toString());
+					coursesOfProfessor = qc.searchBySubject( subjectBox.getSelectedItem().toString());
 				} catch (SQLException e1) {
 					// TODO BetterWasy of Handling this error
 					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
 				}
 				
 			//Do this to add found courses to string on next page.
-			if( foundCourses !=null){
-			String [] found = new String[foundCourses.size()];
-			for(int i = 0; i < foundCourses.size(); i++){
+			if( coursesOfProfessor !=null){
+			String [] found = new String[coursesOfProfessor.size()];
+			for(int i = 0; i < coursesOfProfessor.size(); i++){
 				
-				found[i] = foundCourses.get(i).getCourseName();
+				found[i] = coursesOfProfessor.get(i).getCourseName();
 			}
 			
 			if(found !=null){
