@@ -38,7 +38,7 @@ public class QueryController {
 	    rs.close();
 	    
 	    if(curr.getID()==-1)
-	    	return null;
+	    	return curr;
 		
 	    
 	    //LOAD THE SCHEDULE
