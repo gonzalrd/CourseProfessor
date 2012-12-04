@@ -47,73 +47,94 @@ import javax.swing.event.ListSelectionEvent;
 public class interfaceController {
 
 	private JFrame frame;
-	private final JPanel loginPage = new JPanel();
+	
 	private final CardLayout cl_Content = new CardLayout(10, 14);
+	
+	//PANELS
+	private final JPanel loginPage = new JPanel();
 	private final JPanel courseSelection = new JPanel();
 	private final JPanel Content = new JPanel();
 	private final JPanel CoursePage = new JPanel();
 	private final JPanel FeedBack = new JPanel();
 	private final JPanel Schedule = new JPanel();
-	private final JLabel SelectProfTest = new JLabel("Select a Professor to see \r\nRatings and Feedback");
-	private final JList cProfessorList = new JList();
-	private final JButton btnViewSyllabus = new JButton("View Syllabus");
-	private final JLabel lblFeedback = new JLabel("FeedBack");
-	private final JTextPane viewFeedback = new JTextPane();
-	private final JButton btnLeaveFeedback = new JButton("Leave FeedBack");
-	private final JList cTimeList = new JList();
-	private final JLabel lblSelectATime = new JLabel("Select a Time");
-	private final JButton btnAddToSchedule = new JButton("Add to Schedule");
-	private final JLabel lblPickProfessorYour = new JLabel("Pick Professor your Leaving Feedback for");
-	private final JButton btnAddFeedback = new JButton("Add FeedBack");
-	private final JLabel lblEnterARating = new JLabel("Select a Rating");
-	private final JLabel lblWriteCommentsHere = new JLabel("Write Comments Here");
-	private final JTextArea feedbacktxt = new JTextArea();
-	private final JList fPickProf = new JList();
-	private final JSpinner rateSpinner = new JSpinner();
-	private final JLabel lblStars = new JLabel("Stars");
-	private final JLabel schLbl = new JLabel("Schedule");
-	private final JButton btnGoBackTo = new JButton("Go Back to Course Selection");
-	private final JTextPane scheduleDisplay = new JTextPane();
-	private final JButton btnBackToSelector = new JButton("Back to Selector");
-	
-	
-	//Variables I will need to get correct information:	
 	private final JPanel SearchResults = new JPanel();
-	private final JButton btnViewSelectedCo = new JButton("View Selected Course");
-	private final JList resultslist = new JList();
-	private final JLabel resultsLabel = new JLabel("Course Search Results");
-	private final JLabel lblUsername = new JLabel("Username:");
-	private final JTextField UserNameTxt = new JTextField();
-	private final JLabel lblPassword = new JLabel("Password:");
-	private final JPasswordField PassTxt = new JPasswordField();
+	private final JPanel byCourseContainer = new JPanel();
+	private final JPanel byProfessorContainer = new JPanel();
+	
+	//BUTTONS
+	private final JButton btnViewSyllabus = new JButton("View Syllabus");
+	private final JButton btnLeaveFeedback = new JButton("Leave FeedBack");
+	private final JButton btnAddToSchedule = new JButton("Add to Schedule");
+	private final JButton btnAddFeedback = new JButton("Add FeedBack");
+	private final JButton btnBackToSelector = new JButton("Back to Selector");
+	private final JButton btnGoBackTo = new JButton("Go Back to Course Selection");
 	private final JButton btnRegister = new JButton("Register...");
 	private final JButton btnLogin = new JButton("Login");
-	private final JPanel byCourseContainer = new JPanel();
-	private final JLabel lblSelectADepartment = new JLabel("Select a Department:");
-	private final JComboBox subjectBox = new JComboBox();
-	private final JLabel lblCourseNumber = new JLabel("Course Number:");
-	private final JFormattedTextField courseNumField = new JFormattedTextField();
-	private final JLabel lblEnterStartTime = new JLabel("Enter Start Time:");
-	private final JFormattedTextField startTimeText = new JFormattedTextField();
+	private final JButton btnViewSelectedCo = new JButton("View Selected Course");
 	private final JButton btnFindCourses = new JButton("Find Courses...");
-	private final JLabel lblSearchForCourses = new JLabel("Search by Course");
-	private final JLabel lblSearchByProfessor = new JLabel("Search by Professor");
-	private final JPanel byProfessorContainer = new JPanel();
-	private final JLabel lblProfessorsLastname = new JLabel("Professor's  full name:");
-	private final JTextField profNametxt = new JTextField();
 	private final JButton btnFindProf_1 = new JButton("Find Courses..");
 	private final JButton btnViewSchedule = new JButton("View Schedule");
 	private final JButton btnLogout = new JButton("Logout");
+	private final JButton btnsBacktoSelector = new JButton("BackToSelector");
+	
+	//LABELS
+	private final JLabel SelectProfTest = new JLabel("Select a Professor to see \r\nRatings and Feedback");
+	private final JLabel lblFeedback = new JLabel("FeedBack");
+	private final JLabel lblSelectATime = new JLabel("Select a Time");
+	private final JLabel lblPickProfessorYour = new JLabel("Pick Professor your Leaving Feedback for");
+	private final JLabel lblEnterARating = new JLabel("Select a Rating");
+	private final JLabel lblWriteCommentsHere = new JLabel("Write Comments Here");
+	private final JLabel lblStars = new JLabel("Stars");
+	private final JLabel schLbl = new JLabel("Schedule");
+	private final JLabel resultsLabel = new JLabel("Course Search Results");
+	private final JLabel lblUsername = new JLabel("Username:");
+	private final JLabel lblCourseNumber = new JLabel("Course Number:");
+	private final JLabel lblSearchForCourses = new JLabel("Search by Course");
+	private final JLabel lblSearchByProfessor = new JLabel("Search by Professor");
+	private final JLabel lblProfessorsLastname = new JLabel("Professor's  full name:");
+	private final JLabel lblEnterStartTime = new JLabel("Enter Start Time:");
+	private final JLabel lblSelectADepartment = new JLabel("Select a Department:");
+	private final JLabel lblPassword = new JLabel("Password:");
+	
+	//LISTS
+	private final JList cProfessorList = new JList();
+	private final JList cTimeList = new JList();
+	private final JList fPickProf = new JList();
+	private final JList resultslist = new JList();
+	
+	//TEXT PANES
+	private final JTextPane viewFeedback = new JTextPane();
+	private final JTextPane scheduleDisplay = new JTextPane();
+	
+	//TEXT AREAS
+	private final JTextArea feedbacktxt = new JTextArea();
+	
+	//SPINNERS
+	private final JSpinner rateSpinner = new JSpinner();
+
+	//TEXT FIELDS
+	private final JTextField UserNameTxt = new JTextField();
+	private final JTextField profNametxt = new JTextField();
+	
+	//PASSWORD FIELDS
+	private final JPasswordField PassTxt = new JPasswordField();
+	
+	//COMBO BOXES
+	private final JComboBox subjectBox = new JComboBox();
+	
+	//FORMATTED TEXT FIELDS
+	private final JFormattedTextField courseNumField = new JFormattedTextField();
+	private final JFormattedTextField startTimeText = new JFormattedTextField();
+
+	//MISC
 	private final Component horizontalStrut = Box.createHorizontalStrut(20);
-	
-	
 	
 	//LOGIC VARIABLES
 	private StudentProfile user = new StudentProfile();
 	private course viewCourse;
 	private ArrayList<course> coursesOfProfessor;
 	private QueryController qc;
-	private final JButton btnsBacktoSelector = new JButton("BackToSelector");
+	
 	
 	/**
 	 * Launch the application.
@@ -151,8 +172,6 @@ public class interfaceController {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 542, 444);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		
 		frame.getContentPane().add(Content);
 		Content.setLayout(cl_Content);
 		
@@ -349,32 +368,7 @@ public class interfaceController {
 		gbc_btnFindProf_1.anchor = GridBagConstraints.EAST;
 		gbc_btnFindProf_1.gridx = 1;
 		gbc_btnFindProf_1.gridy = 2;
-		btnFindProf_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				try {
-					coursesOfProfessor = qc.searchbyProf(profNametxt.getText());
-				} catch (SQLException e1) {
-					// TODO BetterWasy of Handling this error
-					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
-				}
-				
-			//Do this to add found courses to string on next page.
-			if(coursesOfProfessor!=null){
-				String [] found = new String[coursesOfProfessor.size()];
-				
-				for(int i = 0; i < coursesOfProfessor.size(); i++)
-					found[i] = coursesOfProfessor.get(i).getCourseName();
-
-				if(found !=null)
-					resultslist.setListData(found);
-				else{
-					String found1 [] = {"professor does not exist in system"}; 
-					resultslist.setListData(found1);
-				}
-			}
-			cl_Content.show(Content, "SearchResults");
-			}
-		});
+		btnFindProf_1.addActionListener(new BtnFindProf_1Listener());
 		
 		byProfessorContainer.add(btnFindProf_1, gbc_btnFindProf_1);
 		
@@ -389,11 +383,8 @@ public class interfaceController {
 		gbc_btnViewSchedule.insets = new Insets(0, 0, 0, 5);
 		gbc_btnViewSchedule.gridx = 0;
 		gbc_btnViewSchedule.gridy = 9;
-		btnViewSchedule.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "Schedule");
-			}
-		});
+		btnViewSchedule.addActionListener(new BtnViewScheduleListener());
+		
 		courseSelection.add(btnViewSchedule, gbc_btnViewSchedule);
 		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
 		gbc_btnLogout.gridx = 1;
@@ -435,16 +426,8 @@ public class interfaceController {
 		gbc_cProfessorList.fill = GridBagConstraints.BOTH;
 		gbc_cProfessorList.gridx = 0;
 		gbc_cProfessorList.gridy = 2;
-		cProfessorList.addListSelectionListener(new ListSelectionListener() {
-			//TODO: Needs to run query or use method that does and 
-			//change what the feedback says based on query and times
-			public void valueChanged(ListSelectionEvent arg0) {
-				
-				//this would run method that gets the feedback for a course and professor and push that feedback into
-				//button click event.
-				viewFeedback.setText("The professor is awesome");
-			}
-		});
+		cProfessorList.addListSelectionListener(new ProfListSelectionListener());
+		
 		cProfessorList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		cProfessorList.setValueIsAdjusting(true);
 		cProfessorList.setFont(new Font("Serif", Font.PLAIN, 14));
@@ -483,15 +466,8 @@ public class interfaceController {
 		gbc_btnAddToSchedule.gridx = 6;
 		gbc_btnAddToSchedule.gridy = 8;
 		//TODO: write code here to get and display schedule
-		btnAddToSchedule.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				//TODO: needs to get selected time and error handling if nothing is selected.
-				//needs to run update that adds to user schedule for the schedule class
-				
-				cl_Content.show(Content, "Schedule");
-			}
-		});
+		btnAddToSchedule.addActionListener(new BtnAddToScheduleListener());
+		
 		CoursePage.add(btnAddToSchedule, gbc_btnAddToSchedule);
 		GridBagConstraints gbc_viewFeedback = new GridBagConstraints();
 		gbc_viewFeedback.gridheight = 3;
@@ -507,21 +483,15 @@ public class interfaceController {
 		gbc_btnLeaveFeedback.gridx = 0;
 		gbc_btnLeaveFeedback.gridy = 12;
 		//TODO: Needs to include the code to add feedback for the course selected.
-		btnLeaveFeedback.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "FeedBack");
-			}
-		});
+		btnLeaveFeedback.addActionListener(new BtnLeaveFeedbackListener());
+		
 		
 		GridBagConstraints gbc_btnBackToSelector = new GridBagConstraints();
 		gbc_btnBackToSelector.insets = new Insets(0, 0, 5, 5);
 		gbc_btnBackToSelector.gridx = 6;
 		gbc_btnBackToSelector.gridy = 10;
-		btnBackToSelector.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "findCourses");
-			}
-		});
+		btnBackToSelector.addActionListener(new BtnBackToListener());
+		
 		CoursePage.add(btnBackToSelector, gbc_btnBackToSelector);
 		CoursePage.add(btnLeaveFeedback, gbc_btnLeaveFeedback);
 		
@@ -584,21 +554,8 @@ public class interfaceController {
 		gbc_btnAddFeedback.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAddFeedback.gridx = 4;
 		gbc_btnAddFeedback.gridy = 12;
-		btnAddFeedback.addActionListener(new ActionListener() {
-			//TODO: add in code to get info from feedback and send to class that holds the feedback
-			public void actionPerformed(ActionEvent e) {
-				//get selected professor
-				
-				String prof = (String) fPickProf.getSelectedValue();
-				//get rating
-				//int rating = (int) rateSpinner.getValue();
-				//get feedback
-				String usrFeedBackString = feedbacktxt.getText();
-				
-				//put into update that added this to the feedback table or method that already does this.
-				cl_Content.show(Content, "findCourses");
-			}
-		});
+		btnAddFeedback.addActionListener(new BtnAddFeedbackListener());
+		
 		FeedBack.add(btnAddFeedback, gbc_btnAddFeedback);
 		
 		Content.add(Schedule, "Schedule");
@@ -628,12 +585,9 @@ public class interfaceController {
 		gbc_btnGoBackTo.insets = new Insets(0, 0, 5, 5);
 		gbc_btnGoBackTo.gridx = 12;
 		gbc_btnGoBackTo.gridy = 11;
-		btnGoBackTo.addActionListener(new ActionListener() {
-			//TODO: Write code to add in what gets displayed from a students schedule
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "findCourses");
-			}
-		});
+		btnGoBackTo.addActionListener(new BtnGoBackToListener());
+		
+		
 		Schedule.add(btnGoBackTo, gbc_btnGoBackTo);
 		
 		Content.add(SearchResults, "SearchResults");
@@ -667,16 +621,8 @@ public class interfaceController {
 		gbc_btnViewSelectedCo.anchor = GridBagConstraints.BASELINE;
 		gbc_btnViewSelectedCo.gridx = 12;
 		gbc_btnViewSelectedCo.gridy = 7;
-		btnViewSelectedCo.addActionListener(new ActionListener() {
-			//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
-			
-			public void actionPerformed(ActionEvent e) {
-				int selectedIndex = resultslist.getSelectedIndex();			
-				viewCourse = coursesOfProfessor.get(selectedIndex);
-				cl_Content.show(Content, "CoursePage");
-				//TODO use method in QueryController to do search
-			}
-		});
+		btnViewSelectedCo.addActionListener(new BtnViewSelectedCoListener());
+		
 		SearchResults.add(btnViewSelectedCo, gbc_btnViewSelectedCo);
 		
 		GridBagConstraints gbc_btnsBacktoSelector = new GridBagConstraints();
@@ -684,14 +630,81 @@ public class interfaceController {
 		gbc_btnsBacktoSelector.insets = new Insets(0, 0, 5, 5);
 		gbc_btnsBacktoSelector.gridx = 12;
 		gbc_btnsBacktoSelector.gridy = 8;
-		btnsBacktoSelector.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "findCourses");
-			}
-		});
+		btnsBacktoSelector.addActionListener(new BtnBacktoSelectorListener());
+		
 		SearchResults.add(btnsBacktoSelector, gbc_btnsBacktoSelector);
 	}
 	
+	
+	/////////////////////////////////////////////////////////////////
+	//                                                             //
+	//           ACTION LISTENERS LIE HERE, BE WARY                //
+	//                                                             //
+	/////////////////////////////////////////////////////////////////
+	private class ProfListSelectionListener implements ListSelectionListener{
+		//TODO: Needs to run query or use method that does and 
+			//change what the feedback says based on query and times
+		public void valueChanged(ListSelectionEvent arg0) {
+				
+			//this would run method that gets the feedback for a course and professor and push that feedback into
+			//button click event.
+			viewFeedback.setText("The professor is awesome");
+		}
+	}
+	private class BtnAddToScheduleListener implements ActionListener{
+		public void actionPerformed(ActionEvent arg0) {
+			
+			//TODO: needs to get selected time and error handling if nothing is selected.
+			//needs to run update that adds to user schedule for the schedule class
+			
+			cl_Content.show(Content, "Schedule");
+		}
+	}
+	private class BtnLeaveFeedbackListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "FeedBack");
+		}
+	}
+	private class BtnBackToListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "findCourses");
+		}
+	}
+	private class BtnAddFeedbackListener implements ActionListener{
+		//TODO: add in code to get info from feedback and send to class that holds the feedback
+		public void actionPerformed(ActionEvent e) {
+			//get selected professor
+			
+			String prof = (String) fPickProf.getSelectedValue();
+			//get rating
+			//int rating = (int) rateSpinner.getValue();
+			//get feedback
+			String usrFeedBackString = feedbacktxt.getText();
+			
+			//put into update that added this to the feedback table or method that already does this.
+			cl_Content.show(Content, "findCourses");
+		}
+	}
+	private class BtnGoBackToListener implements ActionListener{
+		//TODO: Write code to add in what gets displayed from a students schedule
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "findCourses");
+		}
+	}
+	private class BtnViewSelectedCoListener implements ActionListener{	
+		//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
+		public void actionPerformed(ActionEvent e) {
+			int selectedIndex = resultslist.getSelectedIndex();			
+			viewCourse = coursesOfProfessor.get(selectedIndex);
+			cl_Content.show(Content, "CoursePage");
+			//TODO use method in QueryController to do search
+		}
+	}
+	private class BtnBacktoSelectorListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "findCourses");
+		}
+	}
 	private class BtnLoginActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
@@ -744,6 +757,37 @@ public class interfaceController {
 		public void actionPerformed(ActionEvent e) {
 			cl_Content.show(Content, "login");
 			frame.setSize(new Dimension(500,150));
+		}
+	}
+	private class BtnFindProf_1Listener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			try {
+				coursesOfProfessor = qc.searchbyProf(profNametxt.getText());
+			} catch (SQLException e1) {
+				// TODO BetterWasy of Handling this error
+				System.out.print("There an issue with the sqlite databse when running this query to search by subject");
+			}
+			
+		//Do this to add found courses to string on next page.
+			if(coursesOfProfessor!=null){
+				String [] found = new String[coursesOfProfessor.size()];
+				
+				for(int i = 0; i < coursesOfProfessor.size(); i++)
+					found[i] = coursesOfProfessor.get(i).getCourseName();
+	
+				if(found !=null)
+					resultslist.setListData(found);
+				else{
+					String found1 [] = {"professor does not exist in system"}; 
+					resultslist.setListData(found1);
+				}
+			}
+			cl_Content.show(Content, "SearchResults");
+		}
+	}
+	private class BtnViewScheduleListener implements ActionListener{		
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "Schedule");
 		}
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
