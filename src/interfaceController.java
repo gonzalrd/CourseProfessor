@@ -457,11 +457,10 @@ public class interfaceController {
 				//TODO: needs to get selected time and error handling if nothing is selected.
 				//needs to run update that adds to user schedule for the schedule class
 				
-				cl_Content.show(Content, "name_7647640712816");
+				cl_Content.show(Content, "Schedule");
 			}
 		});
 		CoursePage.add(btnAddToSchedule, gbc_btnAddToSchedule);
-		
 		GridBagConstraints gbc_viewFeedback = new GridBagConstraints();
 		gbc_viewFeedback.gridheight = 3;
 		gbc_viewFeedback.insets = new Insets(0, 0, 5, 5);
@@ -478,7 +477,7 @@ public class interfaceController {
 		//TODO: Needs to include the code to add feedback for the course selected.
 		btnLeaveFeedback.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_7433999368240");
+				cl_Content.show(Content, "FeedBack");
 			}
 		});
 		
@@ -488,7 +487,7 @@ public class interfaceController {
 		gbc_btnBackToSelector.gridy = 10;
 		btnBackToSelector.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_107515968515780");
+				cl_Content.show(Content, "findCourses");
 			}
 		});
 		CoursePage.add(btnBackToSelector, gbc_btnBackToSelector);
@@ -565,7 +564,7 @@ public class interfaceController {
 				String usrFeedBackString = feedbacktxt.getText();
 				
 				//put into update that added this to the feedback table or method that already does this.
-				cl_Content.show(Content, "name_6764293193015");
+				cl_Content.show(Content, "findCourses");
 			}
 		});
 		FeedBack.add(btnAddFeedback, gbc_btnAddFeedback);
@@ -600,7 +599,7 @@ public class interfaceController {
 		btnGoBackTo.addActionListener(new ActionListener() {
 			//TODO: Write code to add in what gets displayed from a students schedule
 			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_107515968515780");
+				cl_Content.show(Content, "findCourses");
 			}
 		});
 		Schedule.add(btnGoBackTo, gbc_btnGoBackTo);
@@ -626,7 +625,7 @@ public class interfaceController {
 		gbc_btnViewCourse.gridy = 4;
 		btnViewCourse.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_6764293193015");
+				cl_Content.show(Content, "CoursePage");
 				
 				//TODO:needs to get the professor teaching this course
 				String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
@@ -711,18 +710,7 @@ public class interfaceController {
 			
 			public void actionPerformed(ActionEvent e) {
 				cl_Content.show(Content, "CoursePage");
-				
-				//TODO - the will be removed. The course will be set some where else. 
-				//boolean [] daysOfWeeKs = {true , false, true, false, false};
-				//selectedCourse = new course("cse 121" , "a couse in compSci" ,1200 , 1400 , daysOfWeeKs );
-				//TODO:needs to get the professor teaching this course
-				//String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
-				//cProfessorList.setListData(profList);
-				
-				//TODO:needs to get the times this course is being offered and put them in the cTimeList Jlist.
-				
-				//String [] times = {" MWF 1:00-2:15" , "TR 3:00 - 5:15" };
-				//cTimeList.setListData(times);
+				//TODO use method in QueryController to do search
 				
 			}
 		});
