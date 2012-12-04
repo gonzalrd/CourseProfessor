@@ -19,6 +19,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
@@ -60,6 +61,7 @@ public class interfaceController {
 	private final JPanel SearchResults = new JPanel();
 	private final JPanel byCourseContainer = new JPanel();
 	private final JPanel byProfessorContainer = new JPanel();
+	private final JPanel errorPanel = new JPanel();
 	
 	//BUTTONS
 	private final JButton btnViewSyllabus = new JButton("View Syllabus");
@@ -171,6 +173,7 @@ public class interfaceController {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 542, 444);
+		frame.setSize(new Dimension(500,150));
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().add(Content);
 		Content.setLayout(cl_Content);
@@ -705,56 +708,13 @@ public class interfaceController {
 			cl_Content.show(Content, "findCourses");
 		}
 	}
-	private class BtnLoginActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			try {
-				
-				char[] pass = PassTxt.getPassword();
-				String pw = new String(pass);
-				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
-				
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				//JOPTIONPANE ERROR
-			}
-			
-			if(user.getID()==-1){
-				System.out.println("ERROR");
-				//JOPTIONPANE USER NOT FOUND TRY AGAIN
-			}else{
-				cl_Content.show(Content, "findCourses");
-				frame.setSize(new Dimension(313,380));
-			}
-		}
-	}
-	private class BtnRegisterActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			try {
-				char[] pass = PassTxt.getPassword();
-				String pw = new String(pass);
-				
-				qc.addNewStudent("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
-				
-				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
-			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				//Student couldn't be added
-			}
-			
-			//TODO check for already in use and send error message
-			
-			if(user.getID()==-1){
-				System.out.println("ERROR");
-				//JOPTIONPANE USER NOT FOUND TRY AGAIN
-			}else{
-				cl_Content.show(Content, "findCourses");
-				frame.setSize(new Dimension(313,380));
-			}
-		}
-	}
+	
+	
 	private class BtnLogoutActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			user = new StudentProfile();
+			UserNameTxt.setText("");
+			PassTxt.setText("");
 			cl_Content.show(Content, "login");
 			frame.setSize(new Dimension(500,150));
 		}
@@ -831,6 +791,58 @@ public class interfaceController {
 			cl_Content.show(Content, "SearchResults");
 			frame.setSize(new Dimension(500,445));
 			
+		}
+	}
+	
+	
+	// COMPLETE
+	private class BtnLoginActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			try {
+				
+				char[] pass = PassTxt.getPassword();
+				String pw = new String(pass);
+				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+				
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+			}
+			System.out.println("WTF: "+user.getID());
+			if(user.getID()==-1){
+				JOptionPane.showMessageDialog(errorPanel, "Invalid Username/Password combination.", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				UserNameTxt.setText("");
+				PassTxt.setText("");
+			}else{
+				cl_Content.show(Content, "findCourses");
+				frame.setSize(new Dimension(313,380));
+			}
+		}
+	}
+	
+	// INFINITE REGISTRATION W/ SAME USERNAME AND PASSWORD - fix
+	private class BtnRegisterActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				char[] pass = PassTxt.getPassword();
+				String pw = new String(pass);
+				
+				qc.addNewStudent("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+				
+				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+				//Student couldn't be added
+			}
+			
+			//TODO check for already in use and send error message
+			
+			if(user.getID()==-1){
+				JOptionPane.showMessageDialog(errorPanel, "Error register the user, enter valid, unique username/password.", "WARNING!",JOptionPane.WARNING_MESSAGE);
+			}else{
+				cl_Content.show(Content, "findCourses");
+				frame.setSize(new Dimension(313,380));
+			}
 		}
 	}
 }
