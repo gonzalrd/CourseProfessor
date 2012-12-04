@@ -1,3 +1,4 @@
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -12,7 +13,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import java.awt.Font;
+
+import javax.swing.Box;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JList;
+import javax.swing.JPasswordField;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -22,6 +29,12 @@ import javax.swing.JRadioButton;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import javax.swing.event.ListSelectionListener;
@@ -33,25 +46,11 @@ public class interfaceController {
 	private JFrame frame;
 	private final JPanel loginPage = new JPanel();
 	private final CardLayout cl_Content = new CardLayout(10, 14);
-	private final JPanel Content = new JPanel();
 	private final JPanel courseSelection = new JPanel();
-	private final JButton btnLoginToCourse = new JButton("Log on");
-	private final JButton btnNewUser = new JButton("Create New User");
-	private final JTextField UserNameTxt = new JTextField();
-	private final JLabel UserLabel = new JLabel("UserName");
-	private final JLabel PassLabel = new JLabel("Password");
-	private final JTextField PassTxt = new JTextField();
+	private final JPanel Content = new JPanel();
 	private final JPanel CoursePage = new JPanel();
 	private final JPanel FeedBack = new JPanel();
 	private final JPanel Schedule = new JPanel();
-	private final JList subjectList = new JList();
-	private final JTextField CourseNumTxt = new JTextField();
-	private final JTextField LookUpProf = new JTextField();
-	private final JTextField LookUpTime = new JTextField();
-	private final JButton btnFindCourses = new JButton("Find Courses");
-	private final JButton btnViewSchedule = new JButton("View Schedule");
-	private final JLabel lblSelectSubject = new JLabel("Select Subject");
-	private final JLabel lblEnterCourseNumber = new JLabel("Enter Course Number");
 	private final JLabel SelectProfTest = new JLabel("Select a Professor to see \r\nRatings and Feedback");
 	private final JList cProfessorList = new JList();
 	private final JButton btnViewSyllabus = new JButton("View Syllabus");
@@ -74,7 +73,6 @@ public class interfaceController {
 	private final JTextPane scheduleDisplay = new JTextPane();
 	private final JButton btnBackToSelector = new JButton("Back to Selector");
 	private final JPanel ProfessorPage = new JPanel();
-	private final JButton btnFindProfessor = new JButton("Find Professor");
 	private final JButton btnBackToSelector_1 = new JButton("Back to Selector");
 	private final JLabel lblCoursesThey = new JLabel("Courses They're Teaching");
 	private final JTextPane pViewFeedBack = new JTextPane();
@@ -92,11 +90,33 @@ public class interfaceController {
 	private final JButton btnViewSelectedCo = new JButton("View Selected Course");
 	private final JList resultslist = new JList();
 	private final JLabel resultsLabel = new JLabel("Course Search Results");
-	private final JLabel lblCourseNumber = new JLabel("Course Number");
-	private final JLabel lblProfessorName = new JLabel("Search for Professor");
-	private final JLabel lblSearchByTime = new JLabel("Search By Time");
 	
 	private course selectedCourse;
+	
+	private final JLabel lblUsername = new JLabel("Username:");
+	private final JTextField UserNameTxt = new JTextField();
+	private final JLabel lblPassword = new JLabel("Password:");
+	private final JPasswordField PassTxt = new JPasswordField();
+	private final JButton btnRegister = new JButton("Register...");
+	private final JButton btnLogin = new JButton("Login");
+	private final JPanel byCourseContainer = new JPanel();
+	private final JLabel lblSelectADepartment = new JLabel("Select a Department:");
+	private final JComboBox comboBox = new JComboBox();
+	private final JLabel lblCourseNumber = new JLabel("Course Number:");
+	private final JFormattedTextField textField = new JFormattedTextField();
+	private final JLabel lblEnterStartTime = new JLabel("Enter Start Time:");
+	private final JFormattedTextField formattedTextField = new JFormattedTextField();
+	private final JButton btnFindCourses = new JButton("Find Courses...");
+	private final JLabel lblSearchForCourses = new JLabel("Search by Course");
+	private final JLabel lblSearchByProfessor = new JLabel("Search by Professor");
+	private final JPanel byProfessorContainer = new JPanel();
+	private final JLabel lblProfessorsLastname = new JLabel("Professor's Lastname:");
+	private final JTextField textField_1 = new JTextField();
+	private final JButton btnFindCourses_1 = new JButton("Find Courses...");
+	private final JButton btnViewSchedule = new JButton("View Schedule");
+	private final JButton btnLogout = new JButton("Logout");
+	private final Component horizontalStrut = Box.createHorizontalStrut(20);
+	
 	
 	/**
 	 * Launch the application.
@@ -135,226 +155,228 @@ public class interfaceController {
 		
 		frame.getContentPane().add(Content);
 		Content.setLayout(cl_Content);
-		Content.add(loginPage, "name_107124402661944");
+		
+		Content.add(loginPage, "login");
+		//frame.setSize(new Dimension(500, 150));
 		GridBagLayout gbl_loginPage = new GridBagLayout();
-		gbl_loginPage.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_loginPage.rowHeights = new int[] {30, 30, 30, 30, 30, 30, 30, 30, 30, 0, 30, 30, 30, 30, 0, 30, 30, 30, 30, 30};
-		gbl_loginPage.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_loginPage.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_loginPage.columnWidths = new int[]{0, 0, 298, 0, 0, 0};
+		gbl_loginPage.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_loginPage.columnWeights = new double[]{0.0, 0.0, 1.0, 1.0, 0.0, Double.MIN_VALUE};
+		gbl_loginPage.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		loginPage.setLayout(gbl_loginPage);
-		UserNameTxt.setColumns(10);
+		
+		GridBagConstraints gbc_lblUsername = new GridBagConstraints();
+		gbc_lblUsername.insets = new Insets(0, 0, 5, 5);
+		gbc_lblUsername.anchor = GridBagConstraints.EAST;
+		gbc_lblUsername.gridx = 1;
+		gbc_lblUsername.gridy = 0;
+		loginPage.add(lblUsername, gbc_lblUsername);
 		
 		GridBagConstraints gbc_UserNameTxt = new GridBagConstraints();
-		gbc_UserNameTxt.gridwidth = 13;
+		gbc_UserNameTxt.gridwidth = 2;
 		gbc_UserNameTxt.insets = new Insets(0, 0, 5, 5);
 		gbc_UserNameTxt.fill = GridBagConstraints.HORIZONTAL;
-		gbc_UserNameTxt.gridx = 10;
-		gbc_UserNameTxt.gridy = 8;
+		gbc_UserNameTxt.gridx = 2;
+		gbc_UserNameTxt.gridy = 0;
 		loginPage.add(UserNameTxt, gbc_UserNameTxt);
 		
-		GridBagConstraints gbc_UserLabel = new GridBagConstraints();
-		gbc_UserLabel.gridwidth = 8;
-		gbc_UserLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_UserLabel.gridx = 2;
-		gbc_UserLabel.gridy = 8;
-		UserLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		loginPage.add(UserLabel, gbc_UserLabel);
-		
-		GridBagConstraints gbc_PassLabel = new GridBagConstraints();
-		gbc_PassLabel.gridwidth = 9;
-		gbc_PassLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_PassLabel.gridx = 1;
-		gbc_PassLabel.gridy = 12;
-		PassLabel.setFont(new Font("Times New Roman", Font.PLAIN, 15));
-		loginPage.add(PassLabel, gbc_PassLabel);
-		PassTxt.setColumns(10);
+		GridBagConstraints gbc_lblPassword = new GridBagConstraints();
+		gbc_lblPassword.anchor = GridBagConstraints.EAST;
+		gbc_lblPassword.insets = new Insets(0, 0, 5, 5);
+		gbc_lblPassword.gridx = 1;
+		gbc_lblPassword.gridy = 1;
+		loginPage.add(lblPassword, gbc_lblPassword);
 		
 		GridBagConstraints gbc_PassTxt = new GridBagConstraints();
-		gbc_PassTxt.gridwidth = 14;
+		gbc_PassTxt.gridwidth = 2;
 		gbc_PassTxt.insets = new Insets(0, 0, 5, 5);
 		gbc_PassTxt.fill = GridBagConstraints.HORIZONTAL;
-		gbc_PassTxt.gridx = 10;
-		gbc_PassTxt.gridy = 12;
+		gbc_PassTxt.gridx = 2;
+		gbc_PassTxt.gridy = 1;
 		loginPage.add(PassTxt, gbc_PassTxt);
 		
-		GridBagConstraints gbc_btnNewUser = new GridBagConstraints();
-		gbc_btnNewUser.gridwidth = 10;
-		gbc_btnNewUser.insets = new Insets(0, 7, 14, 5);
-		gbc_btnNewUser.gridx = 14;
-		gbc_btnNewUser.gridy = 15;
-		btnNewUser.addActionListener(new ActionListener() {
-			//TODO Creates new user then goes to course section - need to get username and Pass word and send to method added user. class should have
-			public void actionPerformed(ActionEvent e) {
-			
-				String Password = "";
-				User = UserNameTxt.getText();
-				Password = PassTxt.getText();
-				
-				//TODO check for already in use and send error message
-				cl_Content.show(Content, "name_107515968515780");
-			}
-		});
+		GridBagConstraints gbc_btnRegister = new GridBagConstraints();
+		gbc_btnRegister.anchor = GridBagConstraints.EAST;
+		gbc_btnRegister.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRegister.gridx = 2;
+		gbc_btnRegister.gridy = 2;
+		btnRegister.addActionListener(new BtnRegisterActionListener());
+		loginPage.add(btnRegister, gbc_btnRegister);
 		
-		GridBagConstraints gbc_btnLoginToCourse = new GridBagConstraints();
-		gbc_btnLoginToCourse.gridwidth = 5;
-		gbc_btnLoginToCourse.insets = new Insets(0, 0, 5, 5);
-		gbc_btnLoginToCourse.gridx = 16;
-		gbc_btnLoginToCourse.gridy = 14;
-		//TODO add methods to get information for userName and Password
-		//TODO add in error handling- do not let incorrect userNames and Passowrd be checked
-		btnLoginToCourse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String Password = "";
-				User = UserNameTxt.getText();
-				Password = PassTxt.getText();
-				
-				cl_Content.show(Content, "name_107515968515780");
-			}
-		});
-		loginPage.add(btnLoginToCourse, gbc_btnLoginToCourse);
-		loginPage.add(btnNewUser, gbc_btnNewUser);
+		GridBagConstraints gbc_btnLogin = new GridBagConstraints();
+		gbc_btnLogin.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnLogin.insets = new Insets(0, 0, 0, 5);
+		gbc_btnLogin.gridx = 3;
+		gbc_btnLogin.gridy = 2;
+		btnLogin.addActionListener(new BtnLoginActionListener());
+		loginPage.add(btnLogin, gbc_btnLogin);
 		
-		Content.add(courseSelection, "name_107515968515780");
+		Content.add(courseSelection, "findCourses");
 		GridBagLayout gbl_courseSelection = new GridBagLayout();
-		gbl_courseSelection.columnWidths = new int[] {0, 30, 30, 30, 30, 30, 0, 30, 0, 0, 0, 0, 0, 0, 30, 30, 0, 30, 0, 0, 0, 0, 0, 30, 0, 0, 0, 30, 30, 30, 30, 30, 0, 30, 30, 30, 30, 0, 30, 0};
-		gbl_courseSelection.rowHeights = new int[] {0, 30, 30, 30, 30, 30, 30, 0, 0, 30, 30, 30, 0, 30, 30, 30, 30, 0, 0, 0, 30, 30, 0, 0, 0, 0, 30, 30, 30, 30, 0, 30, 0};
-		gbl_courseSelection.columnWeights = new double[]{1.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
-		gbl_courseSelection.rowWeights = new double[]{1.0, Double.MIN_VALUE, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gbl_courseSelection.columnWidths = new int[]{167, 105, 0};
+		gbl_courseSelection.rowHeights = new int[]{0, 0, 116, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_courseSelection.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_courseSelection.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		courseSelection.setLayout(gbl_courseSelection);
 		
-		GridBagConstraints gbc_lblEnterCourseNumber = new GridBagConstraints();
-		gbc_lblEnterCourseNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblEnterCourseNumber.gridx = 0;
-		gbc_lblEnterCourseNumber.gridy = 0;
-		courseSelection.add(lblEnterCourseNumber, gbc_lblEnterCourseNumber);
+		GridBagConstraints gbc_lblSearchForCourses = new GridBagConstraints();
+		gbc_lblSearchForCourses.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblSearchForCourses.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSearchForCourses.gridx = 0;
+		gbc_lblSearchForCourses.gridy = 0;
+		courseSelection.add(lblSearchForCourses, gbc_lblSearchForCourses);
 		
-		GridBagConstraints gbc_lblSelectSubject = new GridBagConstraints();
-		gbc_lblSelectSubject.gridwidth = 3;
-		gbc_lblSelectSubject.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSelectSubject.gridx = 11;
-		gbc_lblSelectSubject.gridy = 10;
-		courseSelection.add(lblSelectSubject, gbc_lblSelectSubject);
+		GridBagConstraints gbc_byCourseContainer = new GridBagConstraints();
+		gbc_byCourseContainer.insets = new Insets(0, 0, 5, 0);
+		gbc_byCourseContainer.gridheight = 2;
+		gbc_byCourseContainer.gridwidth = 2;
+		gbc_byCourseContainer.fill = GridBagConstraints.BOTH;
+		gbc_byCourseContainer.gridx = 0;
+		gbc_byCourseContainer.gridy = 1;
+		byCourseContainer.setBorder(new LineBorder(new Color(0, 0, 0)));
+		courseSelection.add(byCourseContainer, gbc_byCourseContainer);
+		GridBagLayout gbl_byCourseContainer = new GridBagLayout();
+		gbl_byCourseContainer.columnWidths = new int[]{16, 94, -2, 0};
+		gbl_byCourseContainer.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_byCourseContainer.columnWeights = new double[]{0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_byCourseContainer.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		byCourseContainer.setLayout(gbl_byCourseContainer);
 		
-		GridBagConstraints gbc_subjectList = new GridBagConstraints();
-		gbc_subjectList.gridwidth = 6;
-		gbc_subjectList.insets = new Insets(0, 0, 5, 5);
-		gbc_subjectList.gridheight = 5;
-		gbc_subjectList.fill = GridBagConstraints.BOTH;
-		gbc_subjectList.gridx = 12;
-		gbc_subjectList.gridy = 11;
-		subjectList.setBorder(new BevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		GridBagConstraints gbc_lblSelectADepartment = new GridBagConstraints();
+		gbc_lblSelectADepartment.anchor = GridBagConstraints.WEST;
+		gbc_lblSelectADepartment.gridwidth = 2;
+		gbc_lblSelectADepartment.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSelectADepartment.gridx = 0;
+		gbc_lblSelectADepartment.gridy = 0;
+		lblSelectADepartment.setBorder(new EmptyBorder(5, 5, 0, 0));
+		byCourseContainer.add(lblSelectADepartment, gbc_lblSelectADepartment);
+		
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 3;
+		gbc_comboBox.insets = new Insets(0, 5, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 0;
+		gbc_comboBox.gridy = 1;
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Business (BUS)", "Computer Science (CSE)", "Marketing (MKT)", "Statistics (STA)", "Mathematics (MTH)"}));
+		byCourseContainer.add(comboBox, gbc_comboBox);
+		
+		GridBagConstraints gbc_lblCourseNumber = new GridBagConstraints();
+		gbc_lblCourseNumber.anchor = GridBagConstraints.EAST;
+		gbc_lblCourseNumber.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCourseNumber.gridx = 0;
+		gbc_lblCourseNumber.gridy = 2;
+		lblCourseNumber.setBorder(new EmptyBorder(0, 5, 0, 0));
+		byCourseContainer.add(lblCourseNumber, gbc_lblCourseNumber);
+		textField.setColumns(10);
+		
+		GridBagConstraints gbc_textField = new GridBagConstraints();
+		gbc_textField.gridwidth = 2;
+		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField.insets = new Insets(0, 0, 5, 5);
+		gbc_textField.gridx = 1;
+		gbc_textField.gridy = 2;
+		byCourseContainer.add(textField, gbc_textField);
+		
+		GridBagConstraints gbc_lblEnterStartTime = new GridBagConstraints();
+		gbc_lblEnterStartTime.anchor = GridBagConstraints.EAST;
+		gbc_lblEnterStartTime.insets = new Insets(0, 0, 5, 5);
+		gbc_lblEnterStartTime.gridx = 0;
+		gbc_lblEnterStartTime.gridy = 3;
+		byCourseContainer.add(lblEnterStartTime, gbc_lblEnterStartTime);
+		
+		GridBagConstraints gbc_formattedTextField = new GridBagConstraints();
+		gbc_formattedTextField.gridwidth = 2;
+		gbc_formattedTextField.insets = new Insets(0, 0, 5, 5);
+		gbc_formattedTextField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_formattedTextField.gridx = 1;
+		gbc_formattedTextField.gridy = 3;
+		byCourseContainer.add(formattedTextField, gbc_formattedTextField);
+		
+		GridBagConstraints gbc_btnFindCourses = new GridBagConstraints();
+		gbc_btnFindCourses.gridwidth = 2;
+		gbc_btnFindCourses.anchor = GridBagConstraints.EAST;
+		gbc_btnFindCourses.insets = new Insets(0, 0, 0, 5);
+		gbc_btnFindCourses.gridx = 1;
+		gbc_btnFindCourses.gridy = 4;
+		btnFindCourses.addActionListener(new BtnFindCoursesActionListener());
+		byCourseContainer.add(btnFindCourses, gbc_btnFindCourses);
+		
+		
+		GridBagConstraints gbc_lblSearchByProfessor = new GridBagConstraints();
+		gbc_lblSearchByProfessor.anchor = GridBagConstraints.WEST;
+		gbc_lblSearchByProfessor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSearchByProfessor.gridx = 0;
+		gbc_lblSearchByProfessor.gridy = 4;
+		courseSelection.add(lblSearchByProfessor, gbc_lblSearchByProfessor);
+		
+		GridBagConstraints gbc_byProfessorContainer = new GridBagConstraints();
+		gbc_byProfessorContainer.insets = new Insets(0, 0, 5, 0);
+		gbc_byProfessorContainer.gridheight = 2;
+		gbc_byProfessorContainer.gridwidth = 2;
+		gbc_byProfessorContainer.fill = GridBagConstraints.VERTICAL;
+		gbc_byProfessorContainer.gridx = 0;
+		gbc_byProfessorContainer.gridy = 5;
+		byProfessorContainer.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		courseSelection.add(byProfessorContainer, gbc_byProfessorContainer);
+		GridBagLayout gbl_byProfessorContainer = new GridBagLayout();
+		gbl_byProfessorContainer.columnWidths = new int[]{126, 0, 124, 0};
+		gbl_byProfessorContainer.rowHeights = new int[]{0, 0, 0, 0};
+		gbl_byProfessorContainer.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_byProfessorContainer.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		byProfessorContainer.setLayout(gbl_byProfessorContainer);
+		
+		GridBagConstraints gbc_lblProfessorsLastname = new GridBagConstraints();
+		gbc_lblProfessorsLastname.anchor = GridBagConstraints.SOUTHWEST;
+		gbc_lblProfessorsLastname.insets = new Insets(0, 0, 5, 5);
+		gbc_lblProfessorsLastname.gridx = 0;
+		gbc_lblProfessorsLastname.gridy = 0;
+		lblProfessorsLastname.setBorder(new EmptyBorder(5, 5, 0, 0));
+		byProfessorContainer.add(lblProfessorsLastname, gbc_lblProfessorsLastname);
+		textField_1.setColumns(10);
+		
+		GridBagConstraints gbc_textField_1 = new GridBagConstraints();
+		gbc_textField_1.gridwidth = 3;
+		gbc_textField_1.insets = new Insets(0, 5, 5, 5);
+		gbc_textField_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_textField_1.gridx = 0;
+		gbc_textField_1.gridy = 1;
+		byProfessorContainer.add(textField_1, gbc_textField_1);
+		
+		GridBagConstraints gbc_btnFindCourses_1 = new GridBagConstraints();
+		gbc_btnFindCourses_1.gridwidth = 2;
+		gbc_btnFindCourses_1.insets = new Insets(0, 0, 0, 5);
+		gbc_btnFindCourses_1.anchor = GridBagConstraints.EAST;
+		gbc_btnFindCourses_1.gridx = 1;
+		gbc_btnFindCourses_1.gridy = 2;
+		byProfessorContainer.add(btnFindCourses_1, gbc_btnFindCourses_1);
+		
+		GridBagConstraints gbc_horizontalStrut = new GridBagConstraints();
+		gbc_horizontalStrut.gridwidth = 2;
+		gbc_horizontalStrut.insets = new Insets(0, 0, 5, 0);
+		gbc_horizontalStrut.gridx = 0;
+		gbc_horizontalStrut.gridy = 7;
+		courseSelection.add(horizontalStrut, gbc_horizontalStrut);
+		
+		GridBagConstraints gbc_btnViewSchedule = new GridBagConstraints();
+		gbc_btnViewSchedule.insets = new Insets(0, 0, 0, 5);
+		gbc_btnViewSchedule.gridx = 0;
+		gbc_btnViewSchedule.gridy = 9;
+		courseSelection.add(btnViewSchedule, gbc_btnViewSchedule);
+		
+		GridBagConstraints gbc_btnLogout = new GridBagConstraints();
+		gbc_btnLogout.gridx = 1;
+		gbc_btnLogout.gridy = 9;
+		btnLogout.addActionListener(new BtnLogoutActionListener());
+		courseSelection.add(btnLogout, gbc_btnLogout);
+		
+		
+		
+		
 		
 		//TODO added in method that gets what should be in this list box.
 		String [] sublist = {"cse", "mth", "sta"};
-		subjectList.setListData(sublist);
-		courseSelection.add(subjectList, gbc_subjectList);
 		
-		GridBagConstraints gbc_lblProfessorName = new GridBagConstraints();
-		gbc_lblProfessorName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblProfessorName.gridx = 23;
-		gbc_lblProfessorName.gridy = 11;
-		courseSelection.add(lblProfessorName, gbc_lblProfessorName);
-		LookUpProf.setColumns(10);
-		
-		GridBagConstraints gbc_LookUpProf = new GridBagConstraints();
-		gbc_LookUpProf.gridwidth = 6;
-		gbc_LookUpProf.insets = new Insets(0, 0, 5, 5);
-		gbc_LookUpProf.fill = GridBagConstraints.HORIZONTAL;
-		gbc_LookUpProf.gridx = 23;
-		gbc_LookUpProf.gridy = 12;
-		courseSelection.add(LookUpProf, gbc_LookUpProf);
-		
-		GridBagConstraints gbc_btnFindProfessor = new GridBagConstraints();
-		gbc_btnFindProfessor.insets = new Insets(0, 0, 5, 5);
-		gbc_btnFindProfessor.gridx = 23;
-		gbc_btnFindProfessor.gridy = 13;
-		btnFindProfessor.addActionListener(new ActionListener() {
-			//TODO need to add code that correctly displays courses that professor is teach and the feedback they have on those courses, simular to course page
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_5422214919347");
-			}
-		});
-		courseSelection.add(btnFindProfessor, gbc_btnFindProfessor);
-		
-		GridBagConstraints gbc_lblCourseNumber = new GridBagConstraints();
-		gbc_lblCourseNumber.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCourseNumber.gridx = 12;
-		gbc_lblCourseNumber.gridy = 16;
-		courseSelection.add(lblCourseNumber, gbc_lblCourseNumber);
-		CourseNumTxt.setColumns(10);
-		
-		GridBagConstraints gbc_CourseNumTxt = new GridBagConstraints();
-		gbc_CourseNumTxt.ipadx = 12;
-		gbc_CourseNumTxt.gridwidth = 5;
-		gbc_CourseNumTxt.insets = new Insets(0, 0, 5, 5);
-		gbc_CourseNumTxt.fill = GridBagConstraints.HORIZONTAL;
-		gbc_CourseNumTxt.gridx = 12;
-		gbc_CourseNumTxt.gridy = 18;
-		courseSelection.add(CourseNumTxt, gbc_CourseNumTxt);
-		
-		GridBagConstraints gbc_btnViewSchedule = new GridBagConstraints();
-		gbc_btnViewSchedule.gridheight = 2;
-		gbc_btnViewSchedule.gridwidth = 5;
-		gbc_btnViewSchedule.insets = new Insets(0, 0, 5, 5);
-		gbc_btnViewSchedule.gridx = 22;
-		gbc_btnViewSchedule.gridy = 19;
-		btnViewSchedule.addActionListener(new ActionListener() {
-			//TODO: write code get a schedule for the User that is Logon on.
-			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_7647640712816");
-				
-				scheduleDisplay.setText("This is were the schedule info will be displayed " + "\n" + "info from query using username");
-			}
-		});
-		courseSelection.add(btnViewSchedule, gbc_btnViewSchedule);
-		
-		GridBagConstraints gbc_lblSearchByTime = new GridBagConstraints();
-		gbc_lblSearchByTime.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSearchByTime.gridx = 12;
-		gbc_lblSearchByTime.gridy = 20;
-		courseSelection.add(lblSearchByTime, gbc_lblSearchByTime);
-		LookUpTime.setColumns(10);
-		
-		GridBagConstraints gbc_LookUpTime = new GridBagConstraints();
-		gbc_LookUpTime.gridwidth = 5;
-		gbc_LookUpTime.insets = new Insets(0, 0, 5, 5);
-		gbc_LookUpTime.fill = GridBagConstraints.HORIZONTAL;
-		gbc_LookUpTime.gridx = 12;
-		gbc_LookUpTime.gridy = 21;
-		courseSelection.add(LookUpTime, gbc_LookUpTime);
-		
-		GridBagConstraints gbc_btnFindCourses = new GridBagConstraints();
-		gbc_btnFindCourses.gridwidth = 4;
-		gbc_btnFindCourses.insets = new Insets(0, 0, 5, 5);
-		gbc_btnFindCourses.gridx = 12;
-		gbc_btnFindCourses.gridy = 22;
-		//TODO: Get course information and push into course results list for the course results page.
-		//
-		btnFindCourses.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				String subject = (String) subjectList.getSelectedValue();
-				int courseNum;
-				//TODO: Put in check for null
-				try{
-					courseNum = Integer.parseInt(CourseNumTxt.getText());
-				
-				}
-				catch(NumberFormatException e){
-					
-					 courseNum = -1;
-					//run query only for subject or time
-				}
-				String time = LookUpTime.getText();
-				//TODO remover print statements, these are for testing only
-				System.out.println(subject);
-				System.out.println("Number" + courseNum + " " + time);
-				cl_Content.show(Content, "name_61891547693904");//brings up the course results page
-				
-			}
-		});
-		courseSelection.add(btnFindCourses, gbc_btnFindCourses);
-		
-		Content.add(CoursePage, "name_6764293193015");
+		Content.add(CoursePage, "CoursePage");
 		GridBagLayout gbl_CoursePage = new GridBagLayout();
 		gbl_CoursePage.columnWidths = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30};
 		gbl_CoursePage.rowHeights = new int[] {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 30};
@@ -472,7 +494,7 @@ public class interfaceController {
 		CoursePage.add(btnBackToSelector, gbc_btnBackToSelector);
 		CoursePage.add(btnLeaveFeedback, gbc_btnLeaveFeedback);
 		
-		Content.add(FeedBack, "name_7433999368240");
+		Content.add(FeedBack, "FeedBack");
 		GridBagLayout gbl_FeedBack = new GridBagLayout();
 		gbl_FeedBack.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_FeedBack.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -548,7 +570,7 @@ public class interfaceController {
 		});
 		FeedBack.add(btnAddFeedback, gbc_btnAddFeedback);
 		
-		Content.add(Schedule, "name_7647640712816");
+		Content.add(Schedule, "Schedule");
 		GridBagLayout gbl_Schedule = new GridBagLayout();
 		gbl_Schedule.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_Schedule.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -653,7 +675,7 @@ public class interfaceController {
 		});
 		ProfessorPage.add(btnBackToSelector_1, gbc_btnBackToSelector_1);
 		
-		Content.add(SearchResults, "name_61891547693904");
+		Content.add(SearchResults, "SearchResults");
 		GridBagLayout gbl_SearchResults = new GridBagLayout();
 		gbl_SearchResults.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_SearchResults.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
@@ -688,23 +710,57 @@ public class interfaceController {
 			//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 			
 			public void actionPerformed(ActionEvent e) {
-				cl_Content.show(Content, "name_6764293193015");
+				cl_Content.show(Content, "CoursePage");
 				
 				//TODO - the will be removed. The course will be set some where else. 
-				boolean [] daysOfWeeKs = {true , false, true, false, false};
-				selectedCourse = new course("cse 121" , "a couse in compSci" ,1200 , 1400 , daysOfWeeKs );
+				//boolean [] daysOfWeeKs = {true , false, true, false, false};
+				//selectedCourse = new course("cse 121" , "a couse in compSci" ,1200 , 1400 , daysOfWeeKs );
 				//TODO:needs to get the professor teaching this course
-				String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
-				cProfessorList.setListData(profList);
+				//String [] profList = {"Dr.Frikken", "Bo Brinkman", "Krumpe"};
+				//cProfessorList.setListData(profList);
 				
 				//TODO:needs to get the times this course is being offered and put them in the cTimeList Jlist.
 				
-				String [] times = {" MWF 1:00-2:15" , "TR 3:00 - 5:15" };
-				cTimeList.setListData(times);
+				//String [] times = {" MWF 1:00-2:15" , "TR 3:00 - 5:15" };
+				//cTimeList.setListData(times);
 				
 			}
 		});
 		SearchResults.add(btnViewSelectedCo, gbc_btnViewSelectedCo);
 	}
-
+	
+	private class BtnLoginActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			String Password = "";
+			User = UserNameTxt.getText();
+			Password = PassTxt.getText();
+			
+			cl_Content.show(Content, "findCourses");
+			frame.setSize(new Dimension(313,380));
+		}
+	}
+	private class BtnRegisterActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			String Password = "";
+			User = UserNameTxt.getText();
+			Password = PassTxt.getText();
+			//TODO check for already in use and send error message
+			
+			cl_Content.show(Content, "findCourses");
+			frame.setSize(new Dimension(313,380));
+		}
+	}
+	private class BtnLogoutActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "login");
+			frame.setSize(new Dimension(500,150));
+		}
+	}
+	private class BtnFindCoursesActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			cl_Content.show(Content, "SearchResults");
+			frame.setSize(new Dimension(500,445));
+		}
+	}
 }
+

@@ -90,6 +90,8 @@ public class QueryController {
 		      fd.setEndTime( rs.getInt("endTime"));
 		      
 		      foundCourses.add(fd);
+		      
+		      
 		    
 		    }
 		    rs.close();
@@ -105,10 +107,13 @@ public class QueryController {
 	private  boolean[] daysOfWeeks(String [] days){
 		boolean[] daysTF = {false, false, false, false, false};
 		
+		
+		
 		//TODO write implementation
 		
 		return daysTF;
 	}
+	
 	
 
 }
