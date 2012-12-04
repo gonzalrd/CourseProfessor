@@ -6,6 +6,7 @@ public class course{
 	private int endTime;
 	private String courseName;
 	private String courseDescription;
+	private String department;
 	private int courseId;
 	
 	public course(){
@@ -64,6 +65,8 @@ public class course{
 	//Set Data
 	public void setStartTime(int s){this.startTime = s;}
 	public void setCourseId(int id){this.courseId = id;}
+	public void setDepartment(String dep){this.department = dep;}
+	public String getDepartment(){return department;}
 	public int getCourseId(){return this.courseId;}
 	public void setEndTime(int e){this.endTime = e;}
 	public void setCourseName(String s){this.courseName = s;}

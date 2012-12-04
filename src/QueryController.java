@@ -75,19 +75,25 @@ public class QueryController {
 	 * @throws SQLException 
 	 */
 	public ArrayList<course> searchBySubject(String subject) throws SQLException{
-		
+		//TODO: need to test this department
 		subject =  "\"" + subject + "\"";
 		ArrayList<course> foundCourses = new ArrayList<course>();
-		int count = 0;
 		
 		 ResultSet rs = stat.executeQuery("SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";");
 		    while (rs.next()) {
 		      course fd = new course();
 		      
+		      fd.setCourseId(rs.getInt("cid"));
+		      fd.setCourseName(rs.getString("name"));
+		      fd.setDepartment(rs.getString("department"));
+		      fd.setStartTime(rs.getInt("beginTime"));
+		      fd.setEndTime( rs.getInt("endTime"));
 		      
+		      foundCourses.add(fd);
+		    
 		    }
 		    rs.close();
-		
+		//TODO need to add getting the days of the week, have to convert from bools to ints
 		
 		
 		
@@ -96,7 +102,13 @@ public class QueryController {
 		
 	}
 	
-	
+	private  boolean[] daysOfWeeks(String [] days){
+		boolean[] daysTF = {false, false, false, false, false};
+		
+		//TODO write implementation
+		
+		return daysTF;
+	}
 	
 
 }
