@@ -172,13 +172,32 @@ public class QueryController {
 	}
 	
 
-	private  boolean[] daysOfWeeks(String [] days){
-		boolean[] daysTF = {false, false, false, false, false};
+	private  boolean[] daysOfWeeks(course c) throws SQLException{
+		boolean[] daysTF = {false, false, false, false, false};		
+		ArrayList<String> daysValues = new ArrayList<String>();
 		
+		ResultSet rs = stat.executeQuery("SELECT day FROM CLASSDAYS WHERE cid =" + c.getCourseId() + ";");
 		
-		
-		//TODO write implementation
-		
+		while (rs.next()) {
+			daysValues.add(rs.getString("day"));
+		}
+		for (int i=0; i < daysValues.size();i++) {
+			if (daysValues.get(i).equals("Monday")) {
+				daysTF[0] = true;			
+			}
+			if (daysValues.get(i).equals("Tuesday")) {
+				daysTF[1] = true;			
+			}
+			if (daysValues.get(i).equals("Wednesday")) { 
+				daysTF[2] = true;			
+			}
+			if (daysValues.get(i).equals("Thursday")) { 
+				daysTF[3] = true;			
+			}
+			if (daysValues.get(i).equals("Friday")) { 
+				daysTF[4] = true;			
+			}
+		}				
 		return daysTF;
 	}
 
