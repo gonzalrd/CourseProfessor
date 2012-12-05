@@ -135,6 +135,7 @@ public class interfaceController {
 	private StudentProfile user = new StudentProfile();
 	private course viewCourse;
 	private ArrayList<course> coursesOfProfessor;
+	private ArrayList<TeacherProfile> professorList;
 	private QueryController qc;
 	
 	
@@ -686,6 +687,7 @@ public class interfaceController {
 			
 			//put into update that added this to the feedback table or method that already does this.
 			cl_Content.show(Content, "findCourses");
+			frame.setSize(new Dimension(313,380));
 		}
 	}
 	private class BtnGoBackToListener implements ActionListener{
@@ -698,7 +700,18 @@ public class interfaceController {
 		//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 		public void actionPerformed(ActionEvent e) {
 			int selectedIndex = resultslist.getSelectedIndex();			
-			viewCourse = coursesOfProfessor.get(selectedIndex);
+			viewCourse = new course(coursesOfProfessor.get(selectedIndex));
+			try {
+				professorList = qc.professorsTeachingCourse(viewCourse);
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			String [] found = new String[professorList.size()];
+			
+			for(int i = 0; i < professorList.size(); i++)
+				found[i] = professorList.get(i).getName();
+			cProfessorList.setListData(found);
 			cl_Content.show(Content, "CoursePage");
 			//TODO use method in QueryController to do search
 		}
@@ -706,19 +719,12 @@ public class interfaceController {
 	private class BtnBacktoSelectorListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			cl_Content.show(Content, "findCourses");
+			frame.setSize(new Dimension(313,380));
 		}
 	}
 	
 	
-	private class BtnLogoutActionListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			user = new StudentProfile();
-			UserNameTxt.setText("");
-			PassTxt.setText("");
-			cl_Content.show(Content, "login");
-			frame.setSize(new Dimension(500,150));
-		}
-	}
+
 	private class BtnFindProf_1Listener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
@@ -752,45 +758,42 @@ public class interfaceController {
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-				
-			
-				//then search by on of these
-				if(!courseNumField.getText().isEmpty()){
-					int courseNum = Integer.parseInt(courseNumField.getText());
-				}
-				
-				//
-				if(!startTimeText.getText().isEmpty()){
-					int startTime = Integer.parseInt(startTimeText.getText());
-				}
-				
-				//TODO: need query that will search for all three to subject and time and courseNum and time
-				
-				//Search Only by Subject
-				 try {
-					coursesOfProfessor = qc.searchBySubject( subjectBox.getSelectedItem().toString());
-				} catch (SQLException e1) {
-					// TODO BetterWasy of Handling this error
-					System.out.print("There an issue with the sqlite databse when running this query to search by subject");
-				}
-				
+			//then search by on of these
+			if(!courseNumField.getText().isEmpty()){
+				int courseNum = Integer.parseInt(courseNumField.getText());
+			}
+			//
+			if(!startTimeText.getText().isEmpty()){
+				int startTime = Integer.parseInt(startTimeText.getText());
+			}
+
+			//TODO: need query that will search for all three to subject and time and courseNum and time
+
+			//Search Only by Subject
+			try {
+				coursesOfProfessor = qc.searchBySubject( subjectBox.getSelectedItem().toString());
+			} catch (SQLException e1) {
+				// TODO BetterWasy of Handling this error
+				System.out.print("There an issue with the sqlite databse when running this query to search by subject");
+			}
+
 			//Do this to add found courses to string on next page.
 			if( coursesOfProfessor !=null){
-			String [] found = new String[coursesOfProfessor.size()];
-			for(int i = 0; i < coursesOfProfessor.size(); i++){
-				
-				found[i] = coursesOfProfessor.get(i).getCourseName();
+				String [] found = new String[coursesOfProfessor.size()];
+				for(int i = 0; i < coursesOfProfessor.size(); i++){
+
+					found[i] = coursesOfProfessor.get(i).getCourseName();
+				}
+
+				if(found !=null){
+					resultslist.setListData(found);
+				}
+
 			}
-			
-			if(found !=null){
-			resultslist.setListData(found);
-			}
-			
-			}
-			
+
 			cl_Content.show(Content, "SearchResults");
 			frame.setSize(new Dimension(500,445));
-			
+
 		}
 	}
 	
@@ -807,7 +810,6 @@ public class interfaceController {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 			}
-			System.out.println("WTF: "+user.getID());
 			if(user.getID()==-1){
 				JOptionPane.showMessageDialog(errorPanel, "Invalid Username/Password combination.", "WARNING!",JOptionPane.WARNING_MESSAGE);
 				UserNameTxt.setText("");
@@ -818,8 +820,6 @@ public class interfaceController {
 			}
 		}
 	}
-	
-	// INFINITE REGISTRATION W/ SAME USERNAME AND PASSWORD - fix
 	private class BtnRegisterActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -839,10 +839,21 @@ public class interfaceController {
 			
 			if(user.getID()==-1){
 				JOptionPane.showMessageDialog(errorPanel, "Error register the user, enter valid, unique username/password.", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				UserNameTxt.setText("");
+				PassTxt.setText("");
 			}else{
 				cl_Content.show(Content, "findCourses");
 				frame.setSize(new Dimension(313,380));
 			}
+		}
+	}
+	private class BtnLogoutActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			user = new StudentProfile();
+			UserNameTxt.setText("");
+			PassTxt.setText("");
+			cl_Content.show(Content, "login");
+			frame.setSize(new Dimension(500,150));
 		}
 	}
 }

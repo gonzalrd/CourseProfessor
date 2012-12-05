@@ -1,7 +1,7 @@
 public class course{
 
 	private boolean daysOfWeek[] = {false,false,false,false,false};
-	//Time is based on 24 hr clock
+	//Time is based on 2400 hr clock
 	private int startTime;
 	private int endTime;
 	private String courseName;
@@ -15,15 +15,30 @@ public class course{
 		endTime = 0;
 		courseName = "";
 		courseDescription = "";
+		department = "";
+		courseId = -1;
 	}
 	
-	public course(String courseName, String courseDescription, int startTime, int endTime, boolean daysOfWeek[]){
+	public course(String courseName, String courseDescription, int startTime, int endTime, 
+			String department, int courseId, boolean daysOfWeek[]){
 		this.courseName = courseName;
 		this.courseDescription = courseDescription;
 		this.startTime = startTime;
 		this.endTime = endTime;
-		for(int i=0;i<7;i++)
+		this.department = department;
+		this.courseId = courseId;
+		for(int i=0;i<5;i++)
 			this.daysOfWeek[i] = daysOfWeek[i];
+	}
+	
+	public course(course c){
+		this.courseName = c.getCourseName();
+		this.courseDescription = c.getCourseDescription();
+		this.startTime = c.getStartTime();
+		this.endTime = c.getEndTime();
+		this.courseId = c.getCourseId();
+		this.department = c.getDepartment();
+		this.setDaysOfWeek(c.getDaysOfWeek());
 	}
 	
 	//Get Data
@@ -37,7 +52,7 @@ public class course{
 		boolean[] cDays = c.getDaysOfWeek();
 		char[] overlaps = new char[0];
 		int counter = 0;
-		for(int i=0;i<7;i++){
+		for(int i=0;i<5;i++){
 			if(this.daysOfWeek[i] == true && cDays[i] == true){
 				switch(i){
 				case 0:
@@ -72,7 +87,7 @@ public class course{
 	public void setCourseName(String s){this.courseName = s;}
 	public void setCourseDescription(String s){this.courseDescription = s;}
 	public void setDaysOfWeek(boolean[] d){
-		for(int i=0;i<7;i++)
+		for(int i=0;i<5;i++)
 			this.daysOfWeek[i] = d[i];
 	}
 }
