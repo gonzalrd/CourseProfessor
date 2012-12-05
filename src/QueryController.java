@@ -127,6 +127,19 @@ public class QueryController {
 		return findCourses(query);
 	}
 	
+	public ArrayList<TeacherProfile> professorsTeachingCourse(course c) throws SQLException{
+		ArrayList<TeacherProfile> teaching = new ArrayList<TeacherProfile>();
+		String query = "SELECT * FROM PROFESSOR WHERE pid IN (SELECT pid FROM TEACHES T, COURSE C where T.cid = C.cid AND C.cid = "+c.getCourseId()+");";
+		ResultSet rs = stat.executeQuery(query);
+		while (rs.next()) {
+			TeacherProfile prof = new TeacherProfile();
+			prof.setName(rs.getString("name"));
+			prof.setID(rs.getInt("pid"));
+			teaching.add(prof);
+		}
+		rs.close();
+		return teaching;
+	}
 	public ArrayList<course> searchbyDepartment(String depName) throws SQLException{
 		//TODO: need to test this department
 		depName =  "\"" + depName + "\"";
