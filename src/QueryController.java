@@ -59,7 +59,6 @@ public class QueryController {
 		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + s.getID() +"," + c.getCourseId() + ");");
 	}
 	//helper method that finds and creates an arraylist of course given a qeury.
-
 	
 	
 	
@@ -196,8 +195,9 @@ public class QueryController {
 			}
 			if (daysValues.get(i).equals("Friday")) { 
 				daysTF[4] = true;			
-			}
-		}				
+			}			
+		}	
+		
 		return daysTF;
 	}
 
