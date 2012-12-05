@@ -23,7 +23,7 @@ public class QueryController {
 	public StudentProfile loggedIn(String userName, String Password ) throws SQLException{
 		//TODO: needs a query that gets all the courses a student is currently taking. if this student 
 		//than just needs to initialize the schedule that all students will be added to
-		
+				
 		StudentProfile curr = new StudentProfile();
 		curr.setName(userName);
 		curr.setPW(Password);
@@ -164,9 +164,9 @@ public class QueryController {
 		
 	}
 	
-	public String getCourseFeedBack(course c){
-		String feedback = "Need Query for this.";
-		
+	public String getCourseFeedBack(course c) throws SQLException{
+		// I think that should work for getting course feedback based on the courseID
+		String feedback = "SELECT feedback FROM RATING WHERE cid =" + c.getCourseId() + ";";
 		
 		return feedback;
 	}
