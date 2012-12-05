@@ -76,8 +76,10 @@ public class QueryController {
 			fd.setStartTime(rs.getInt("beginTime"));
 			fd.setEndTime( rs.getInt("endTime"));
 			foundCourses.add(fd);
-			}
+		}
 		rs.close();
+		for(course c : foundCourses)
+			c.setDaysOfWeek(this.daysOfWeeks(c));
 		
 		return foundCourses;
 	}
@@ -125,7 +127,10 @@ public class QueryController {
 		String query = "SELECT * FROM COURSE WHERE cid IN (SELECT cid FROM TEACHES T, PROFESSOR P WHERE T.pid = P.pid AND P.name = " +profName + ");";
 		return findCourses(query);
 	}
-	
+	public ArrayList<course> findOpenClassesForCourseAndProf(course c, TeacherProfile p) throws SQLException{
+		String query = "SELECT C.cid AS cid, C.name AS name, C.description AS description, C.department AS department, C.beginTime AS beginTime, C.endTime AS endTime FROM COURSE C JOIN TEACHES T ON T.cid = C.cid AND C.name = \""+c.getCourseName()+"\" AND T.pid = "+p.getID();
+		return this.findCourses(query);
+	}
 	public ArrayList<TeacherProfile> professorsTeachingCourse(course c) throws SQLException{
 		ArrayList<TeacherProfile> teaching = new ArrayList<TeacherProfile>();
 		String query = "SELECT * FROM PROFESSOR WHERE pid IN (SELECT pid FROM TEACHES T, COURSE C where T.cid = C.cid AND C.cid = "+c.getCourseId()+");";
@@ -137,6 +142,13 @@ public class QueryController {
 			teaching.add(prof);
 		}
 		rs.close();
+		ArrayList<course> temp;
+		for(int i=0;i<teaching.size();i++){
+			temp = new ArrayList<course>(this.findOpenClassesForCourseAndProf(c, teaching.get(i)));
+			teaching.get(i).setCourses(temp);
+		}
+			//prof.setCourses(this.findOpenClassesForCourseAndProf(c, prof));
+		
 		return teaching;
 	}
 	public ArrayList<course> searchbyDepartment(String depName) throws SQLException{
@@ -178,6 +190,17 @@ public class QueryController {
 			feedback+=rs.getString("feedback")+" ("+rs.getDouble("rating")+"/5.0)"+"\n";
 		}
 		return feedback;
+		
+	}
+
+	public void addCourseFeedBack(course c, StudentProfile s, TeacherProfile t, double rating, String Feedback ) throws SQLException{
+		int cid = c.getCourseId();
+		int sid = s.getID();
+		int pid = t.getID();
+		
+		Feedback = "\"" + Feedback + "\"";
+		
+		stat.executeUpdate("INSERT INTO RATING VALUES(null," + pid + "," + cid + "," + rating + ","  + Feedback + "," + sid  + ");");
 		
 	}
 

@@ -10,6 +10,7 @@ public class TeacherProfile extends Profile {
    public TeacherProfile() {
 	   name = "";
 	   id = -1;
+	   courses = new ArrayList<course>();
    }
    
    public TeacherProfile(String n, ArrayList<course> curr) {
@@ -40,6 +41,14 @@ public class TeacherProfile extends Profile {
       return courses;
    }
    
+   public String[] getCoursesAsStrings(){
+	   String [] s = new String[this.courses.size()];
+		for(int i = 0;  i < this.courses.size(); i++)
+			 s[i] = this.courses.get(i).getDOW() + " ["
+					 +this.courses.get(i).getStartTime()+"-"+this.courses.get(i).getEndTime()+"]";
+					 
+	   return s;
+   }
    //"Setters"
    public void setName(String n) {
       name = n;

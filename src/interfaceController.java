@@ -656,7 +656,6 @@ public class interfaceController {
 			
 			if(selectedIndex == -1)
 				selectedIndex = firstIndex;
-			viewFeedback.select(selectedIndex, selectedIndex+1);
 			
 			//this would run method that gets the feedback for a course and professor and push that feedback into
 			//button click event.
@@ -665,6 +664,12 @@ public class interfaceController {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+			if(professorList.get(selectedIndex).getCourses()!=null)
+				cTimeList.setListData(professorList.get(selectedIndex).getCoursesAsStrings());
+			else{
+				String[] s = {"Select a professor..."};
+				cTimeList.setListData(s);
 			}
 			viewFeedback.setText(feedbackForClass);
 		}
@@ -705,6 +710,7 @@ public class interfaceController {
 			cProfessorList.removeAll();
 			viewFeedback.removeAll();
 			resultslist.removeAll();
+			cTimeList.removeAll();
 			frame.setSize(new Dimension(313,380));
 			cl_Content.show(Content, "findCourses");
 		}
@@ -712,17 +718,35 @@ public class interfaceController {
 	private class BtnAddFeedbackListener implements ActionListener{
 		//TODO: add in code to get info from feedback and send to class that holds the feedback
 		public void actionPerformed(ActionEvent e) {
-			//get selected professor
 			
-			String prof = (String) fPickProf.getSelectedValue();
-			//get rating
-			//int rating = (int) rateSpinner.getValue();
-			//get feedback
-			String usrFeedBackString = feedbacktxt.getText();
+			///rating 
+			int rating = (int) rateSpinner.getValue();
 			
-			//put into update that added this to the feedback table or method that already does this.
-			cl_Content.show(Content, "findCourses");
-			frame.setSize(new Dimension(313,380));
+			String usrFeedBack= feedbacktxt.getText();
+			
+			if(fPickProf.isSelectionEmpty()){
+				JOptionPane.showMessageDialog(errorPanel, "please select a professor to leave feedback", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				
+			}
+			else{
+				int selectedIndex = fPickProf.getSelectedIndex();
+				
+				try {
+					
+					qc.addCourseFeedBack(viewCourse, user , professorList.get(selectedIndex), (double) rating, usrFeedBack);
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(errorPanel, "User FeedBack was not added to the Database", "WARNING!",JOptionPane.WARNING_MESSAGE);
+					e1.printStackTrace();
+				}
+				
+				//
+				
+				//put into update that added this to the feedback table or method that already does this.
+				rateSpinner.setValue(new Integer(0));
+				feedbacktxt.setText("");
+				cl_Content.show(Content, "findCourses");
+				frame.setSize(new Dimension(313,380));
+			}
 		}
 	}
 	private class BtnGoBackToListener implements ActionListener{
@@ -733,6 +757,7 @@ public class interfaceController {
 			viewFeedback.removeAll();
 			cProfessorList.removeAll();
 			resultslist.removeAll();
+			cTimeList.removeAll();
 			frame.setSize(new Dimension(313,380));
 			cl_Content.show(Content, "findCourses");
 		}
@@ -741,7 +766,6 @@ public class interfaceController {
 		//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 		public void actionPerformed(ActionEvent e) {
 			int selectedIndex = resultslist.getSelectedIndex();
-			System.out.println("Course Index: "+selectedIndex);
 			viewCourse = new course(coursesOfProfessor.get(selectedIndex));
 			try {
 				professorList = qc.professorsTeachingCourse(viewCourse);

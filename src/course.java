@@ -42,6 +42,24 @@ public class course{
 	}
 	
 	//Get Data
+	public String getDOW(){
+		String s = "";
+		for(int i=0;i<5;i++){
+			if(this.daysOfWeek[i]==true){
+				if(i==0)
+					s+="M";
+				else if(i==1)
+					s+="T";
+				else if(i==2)
+					s+="W";
+				else if(i==3)
+					s+="R";
+				else if(i==4)
+					s+="F";
+			}
+		}
+		return s;
+	}
 	public int getDuration(){return endTime-startTime;}
 	public int getStartTime(){return startTime;}
 	public int getEndTime(){return endTime;}
