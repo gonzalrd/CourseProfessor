@@ -436,6 +436,7 @@ public class interfaceController {
 		cProfessorList.setValueIsAdjusting(true);
 		cProfessorList.setFont(new Font("Serif", Font.PLAIN, 14));
 		cProfessorList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		cProfessorList.setSelectedIndex(0);
 		//TODO: add method that gets query for this professor based on selected course
 	
 		CoursePage.add(cProfessorList, gbc_cProfessorList);
@@ -649,10 +650,23 @@ public class interfaceController {
 		//TODO: Needs to run query or use method that does and 
 			//change what the feedback says based on query and times
 		public void valueChanged(ListSelectionEvent arg0) {
-				
+			String feedbackForClass = "";
+			int firstIndex = arg0.getFirstIndex();
+			int selectedIndex = cProfessorList.getSelectedIndex();
+			
+			if(selectedIndex == -1)
+				selectedIndex = firstIndex;
+			viewFeedback.select(selectedIndex, selectedIndex+1);
+			
 			//this would run method that gets the feedback for a course and professor and push that feedback into
 			//button click event.
-			viewFeedback.setText("The professor is awesome");
+			try {
+				feedbackForClass = qc.getProfFeedbackForCourse(viewCourse, professorList.get(selectedIndex));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			viewFeedback.setText(feedbackForClass);
 		}
 	}
 	private class BtnAddToScheduleListener implements ActionListener{
@@ -666,11 +680,32 @@ public class interfaceController {
 	}
 	private class BtnLeaveFeedbackListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+			//fpickProf - Jlist for the pick professor page
+			//proffessorList
+			
+			if(professorList != null){
+				String [] profListData = new String[professorList.size()];
+				for(int i = 0;  i < profListData.length; i++){
+					
+					 profListData[i] = professorList.get(i).getName();
+					
+				}
+				
+				fPickProf.setListData(profListData);
+				
+			}
+			
 			cl_Content.show(Content, "FeedBack");
 		}
 	}
 	private class BtnBackToListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+			coursesOfProfessor = new ArrayList<course>();
+			viewCourse = new course();
+			cProfessorList.removeAll();
+			viewFeedback.removeAll();
+			resultslist.removeAll();
+			frame.setSize(new Dimension(313,380));
 			cl_Content.show(Content, "findCourses");
 		}
 	}
@@ -693,16 +728,24 @@ public class interfaceController {
 	private class BtnGoBackToListener implements ActionListener{
 		//TODO: Write code to add in what gets displayed from a students schedule
 		public void actionPerformed(ActionEvent e) {
+			coursesOfProfessor = new ArrayList<course>();
+			viewCourse = new course();
+			viewFeedback.removeAll();
+			cProfessorList.removeAll();
+			resultslist.removeAll();
+			frame.setSize(new Dimension(313,380));
 			cl_Content.show(Content, "findCourses");
 		}
 	}
 	private class BtnViewSelectedCoListener implements ActionListener{	
 		//TODO: gets selectCourse plugs into global variable selectedCourse and brings up the course page
 		public void actionPerformed(ActionEvent e) {
-			int selectedIndex = resultslist.getSelectedIndex();			
+			int selectedIndex = resultslist.getSelectedIndex();
+			System.out.println("Course Index: "+selectedIndex);
 			viewCourse = new course(coursesOfProfessor.get(selectedIndex));
 			try {
 				professorList = qc.professorsTeachingCourse(viewCourse);
+				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
@@ -712,12 +755,17 @@ public class interfaceController {
 			for(int i = 0; i < professorList.size(); i++)
 				found[i] = professorList.get(i).getName();
 			cProfessorList.setListData(found);
+			cProfessorList.setSelectedValue(found[0], true);
 			cl_Content.show(Content, "CoursePage");
 			//TODO use method in QueryController to do search
 		}
 	}
 	private class BtnBacktoSelectorListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
+			coursesOfProfessor = new ArrayList<course>();
+			viewCourse = new course();
+			courseNumField.setText("");
+			startTimeText.setText("");
 			cl_Content.show(Content, "findCourses");
 			frame.setSize(new Dimension(313,380));
 		}
@@ -759,6 +807,7 @@ public class interfaceController {
 	private class BtnFindCoursesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			//then search by on of these
+			coursesOfProfessor = new ArrayList<course>();
 			if(!courseNumField.getText().isEmpty()){
 				int courseNum = Integer.parseInt(courseNumField.getText());
 			}
@@ -771,7 +820,7 @@ public class interfaceController {
 
 			//Search Only by Subject
 			try {
-				coursesOfProfessor = qc.searchBySubject( subjectBox.getSelectedItem().toString());
+				coursesOfProfessor = qc.searchBySubject(subjectBox.getSelectedItem().toString());
 			} catch (SQLException e1) {
 				// TODO BetterWasy of Handling this error
 				System.out.print("There an issue with the sqlite databse when running this query to search by subject");

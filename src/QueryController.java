@@ -171,6 +171,16 @@ public class QueryController {
 		return feedback;
 	}
 	
+	public String getProfFeedbackForCourse(course c, TeacherProfile p) throws SQLException{
+		String feedback="";
+		String feedbackQuery ="SELECT feedback, rating FROM RATING WHERE cid =" + c.getCourseId() + " AND pid =" + p.getID() + ";";
+		ResultSet rs = stat.executeQuery(feedbackQuery);
+		while(rs.next()){
+			feedback+=rs.getString("feedback")+" ("+rs.getDouble("rating")+"/5.0)"+"\n";
+		}
+		return feedback;
+		
+	}
 
 	private  boolean[] daysOfWeeks(String [] days){
 		boolean[] daysTF = {false, false, false, false, false};

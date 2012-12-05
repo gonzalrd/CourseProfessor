@@ -18,6 +18,11 @@ public class TeacherProfile extends Profile {
     	  courses.add(c);
    }
    
+   public TeacherProfile(TeacherProfile p){
+	   this.name = p.getName();
+	   this.id = p.getID();
+	   this.setCourses(p.getCourses());
+   }
    //Accessors
    public String getName() {
       return name;
