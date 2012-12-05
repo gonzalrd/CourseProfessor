@@ -3,14 +3,11 @@ import java.util.ArrayList;
 public class TeacherProfile extends Profile {
    
    public String name;
-   
-   public String username;
    public int id;
    public ArrayList<course> courses;
    
    //Constructors
    public TeacherProfile() {
-	   username = "";
 	   name = "";
 	   id = -1;
    }
@@ -28,6 +25,10 @@ public class TeacherProfile extends Profile {
    
    public int getID() {
       return id;
+   }
+   
+   public void setID(int id){
+	   this.id = id;
    }
    
    public ArrayList<course> getCourses() {
