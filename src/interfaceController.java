@@ -283,7 +283,7 @@ public class interfaceController {
 		gbc_subjectBox.gridx = 0;
 		gbc_subjectBox.gridy = 1;
 		//TODO: need to get all subject in database to poputlate this is the main. but that will be later
-		subjectBox.setModel(new DefaultComboBoxModel(new String[] {"Business", "Computer Science", "Marketing", "Statistics", "Mathematics"}));
+		subjectBox.setModel(new DefaultComboBoxModel(new String[]{}));
 		byCourseContainer.add(subjectBox, gbc_subjectBox);
 		
 		GridBagConstraints gbc_lblCourseNumber = new GridBagConstraints();
@@ -857,7 +857,7 @@ public class interfaceController {
 				}
 				catch(Exception e1){
 					JOptionPane.showMessageDialog(errorPanel, "Invalid Course Number.", "WARNING!",JOptionPane.WARNING_MESSAGE);	
-			}
+				}
 			}
 			if(!startTimeText.getText().isEmpty()){
 				try{
@@ -916,9 +916,9 @@ public class interfaceController {
 				char[] pass = PassTxt.getPassword();
 				String pw = new String(pass);
 				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
-				
+				subjectBox.setModel(new DefaultComboBoxModel(qc.departmentsInDatabase()));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
+				JOptionPane.showMessageDialog(errorPanel, "Could not log in to the database.", "WARNING!",JOptionPane.ERROR_MESSAGE);
 			}
 			if(user.getID()==-1){
 				JOptionPane.showMessageDialog(errorPanel, "Invalid Username/Password combination.", "WARNING!",JOptionPane.WARNING_MESSAGE);
@@ -965,6 +965,7 @@ public class interfaceController {
 				if(check1 && check2 && check3){
 					qc.addNewStudent(usr,pw);
 					user = qc.loggedIn(usr,pw);
+					subjectBox.setModel(new DefaultComboBoxModel(qc.departmentsInDatabase()));
 					JOptionPane.showMessageDialog (errorPanel, usr+" successfully registered!", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
 					cl_Content.show(Content, "findCourses");
 					frame.setSize(new Dimension(313,380));

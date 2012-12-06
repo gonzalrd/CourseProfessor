@@ -63,6 +63,19 @@ public class QueryController {
 		return check;
 	}
 	
+	public String[] departmentsInDatabase() throws SQLException{
+		ArrayList<String> depts = new ArrayList<String>();
+		String query = "SELECT department FROM COURSE GROUP BY department;";
+		ResultSet rs = stat.executeQuery(query);
+		while(rs.next()){
+			depts.add(rs.getString("department"));
+		}
+		String[] departments = new String[depts.size()];
+		for(int i = 0; i<depts.size();i++)
+			departments[i] = depts.get(i);
+		return departments;
+		
+	}
 	
 	//helper method that finds and creates an array list of course given a query.
 

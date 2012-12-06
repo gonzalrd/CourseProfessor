@@ -71,7 +71,6 @@ public class course{
 	public ArrayList<String> getOverlaps(course c){
 		boolean[] cDays = c.getDaysOfWeek();
 		ArrayList<String> overlaps = new ArrayList<String>();
-		int counter = 0;
 		for(int i=0;i<5;i++){
 			if(this.daysOfWeek[i] == true && cDays[i] == true){
 				switch(i){
@@ -91,7 +90,6 @@ public class course{
 					overlaps.add("F");
 					break;
 				}
-				counter++;
 			}
 		}
 		

@@ -4,16 +4,9 @@ import java.util.ArrayList;
 public class schedule{
 	
 	private ArrayList<course> courses = new ArrayList<course>();
-	private int creditHours;
-	private int maxCreditHours;
 	
 	public schedule(){
-		this.creditHours = 0;
-		this.maxCreditHours = 20;
-	}
-	public schedule(int maxCreditHours){
-		this.maxCreditHours = maxCreditHours;
-		this.creditHours = 0;
+		
 	}
 	
 	public schedule(ArrayList<course> curr){
