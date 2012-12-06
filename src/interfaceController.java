@@ -665,6 +665,7 @@ public class interfaceController {
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				JOptionPane.showMessageDialog(errorPanel, "Could not load feedback from database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			}
 			cTimeList.setListData(professorList.get(selectedIndex).getCoursesAsStrings());
 			viewFeedback.setText(feedbackForClass);
@@ -681,16 +682,17 @@ public class interfaceController {
 				JOptionPane.showMessageDialog(errorPanel, "A professor or time slot is not selected!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			else{
 				course toAdd = new course(professorList.get(profIndex).getCourses().get(timeSlot));
-				user.addToSchedule(toAdd);
-				try {
-					qc.addCourseToSchedule(user, toAdd);
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(errorPanel, "Could not save to database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
-				}
-				scheduleDisplay.setText(user.getSchedule().toString());
-				cl_Content.show(Content, "Schedule");
+				boolean success = user.addToSchedule(toAdd);
+				if(success){
+					try {
+						qc.addCourseToSchedule(user, toAdd);
+					} catch (SQLException e) {
+						JOptionPane.showMessageDialog(errorPanel, "Could not save to database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+					}
+					scheduleDisplay.setText(user.getSchedule().toString());
+					cl_Content.show(Content, "Schedule");
+				}else
+					JOptionPane.showMessageDialog(errorPanel, "A course conflict prevented the course from being added!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
@@ -722,8 +724,8 @@ public class interfaceController {
 			viewFeedback.removeAll();
 			resultslist.removeAll();
 			cTimeList.removeAll();
-			frame.setSize(new Dimension(313,380));
 			cl_Content.show(Content, "findCourses");
+			frame.setSize(new Dimension(313,380));
 		}
 	}
 	private class BtnAddFeedbackListener implements ActionListener{

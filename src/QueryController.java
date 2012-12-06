@@ -23,32 +23,30 @@ public class QueryController {
 	public StudentProfile loggedIn(String userName, String Password ) throws SQLException{
 		//TODO: needs a query that gets all the courses a student is currently taking. if this student 
 		//than just needs to initialize the schedule that all students will be added to
-				
+
 		StudentProfile curr = new StudentProfile();
 		curr.setName(userName);
 		curr.setPW(Password);
-		
+
 		//set the student that logged n
 		ResultSet rs = stat.executeQuery("SELECT * FROM USER WHERE name=" + curr.getName() 
-				 + " AND password= " + curr.getPW() + ";");
-	    while (rs.next())
-	    {
-	    	curr.setID(rs.getInt("sid"));
-	    }
-	    rs.close();
-	    
-	    if(curr.getID()==-1)
-	    	return curr;
-		
-	    
-	    //LOAD THE SCHEDULE
-	   String loadSchedule = "SELECT * FROM COURSE WHERE cid IN (SELECT COURSE.cid FROM SCHEDULE S, COURSE C where S.cid = C.cid AND S.sid = "+curr.getID()+");";
-	   curr.setSchedule(this.findCourses(loadSchedule));
-		
-		
+				+ " AND password= " + curr.getPW() + ";");
+		while (rs.next())
+		{
+			curr.setID(rs.getInt("sid"));
+		}
+		rs.close();
+
+		if(curr.getID()==-1)
+			return curr;
+
+
+		//LOAD THE SCHEDULE
+		String loadSchedule = "SELECT C.cid, C.name, C.department, C.description, C.beginTime, C.endTime FROM USER U, SCHEDULE S, COURSE C where U.sid = S.sid AND S.cid = C.cid AND U.sid = "+curr.getID()+";";
+		curr.setSchedule(this.findCourses(loadSchedule));
 		return curr;
 	}
-	
+
 	//helper method that finds and creates an arraylist of course given a qeury.
 	
 	
@@ -85,7 +83,7 @@ public class QueryController {
 		//TODO: need to test this department
 		subject =  "\"" + subject + "\"";
 		
-		String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + ";";
+		String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + " GROUP BY COURSE.name;";
 		ArrayList<course> foundCourses = findCourses(query);
 		
 		
@@ -124,7 +122,7 @@ public class QueryController {
 	}
 	public ArrayList<TeacherProfile> professorsTeachingCourse(course c) throws SQLException{
 		ArrayList<TeacherProfile> teaching = new ArrayList<TeacherProfile>();
-		String query = "SELECT * FROM PROFESSOR WHERE pid IN (SELECT pid FROM TEACHES T, COURSE C where T.cid = C.cid AND C.cid = "+c.getCourseId()+");";
+		String query = "SELECT * FROM PROFESSOR WHERE pid IN (SELECT pid FROM TEACHES T, COURSE C where T.cid = C.cid AND C.name = \""+c.getCourseName()+"\");";
 		ResultSet rs = stat.executeQuery(query);
 		while (rs.next()) {
 			TeacherProfile prof = new TeacherProfile();

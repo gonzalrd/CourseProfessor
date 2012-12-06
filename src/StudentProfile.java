@@ -21,8 +21,8 @@ public class StudentProfile extends Profile{
 	  this.password = pw;
       this.id = id;
    }
-   public void addToSchedule(course c){
-	   this.studentSchedule.addCourse(c);
+   public boolean addToSchedule(course c){
+	   return this.studentSchedule.addCourse(c);
    }
    public schedule getSchedule(){
 	   return studentSchedule;

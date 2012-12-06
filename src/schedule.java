@@ -32,16 +32,18 @@ public class schedule{
 		return s;
 	}
 	
-	public void addCourse(course toAdd){
+	public boolean addCourse(course toAdd){
 		boolean add = true;
 		
 		System.out.println(toAdd.toString());
-		if(this.courses == null)
+		if(this.courses == null){
 			this.courses.add(new course(toAdd));
+			return true;
+		}
 		else{
 			for(int i = 0; i<courses.size();i++){
-				char[] sameDays = courses.get(i).getOverlaps(toAdd);
-				int numConflicts = sameDays.length;
+				ArrayList<String> sameDays = courses.get(i).getOverlaps(toAdd);
+				int numConflicts = sameDays.size();
 				if(numConflicts > 0){
 					if(courses.get(i).getStartTime() == toAdd.getStartTime())
 						add = false;
@@ -50,10 +52,11 @@ public class schedule{
 				}
 			}
 		
-			if(add)
+			if(add){
 				this.courses.add(new course(toAdd));
-			else
-				System.out.println("Conflict with another course!");
+				return true;
+			}else
+				return false;
 		}
 	}
 	

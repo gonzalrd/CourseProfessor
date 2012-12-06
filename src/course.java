@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class course{
 
 	private boolean daysOfWeek[] = {false,false,false,false,false};
@@ -66,32 +68,33 @@ public class course{
 	public String getCourseName(){return courseName;}
 	public String getCourseDescription(){return courseDescription;}
 	public boolean[] getDaysOfWeek(){return daysOfWeek;}
-	public char[] getOverlaps(course c){
+	public ArrayList<String> getOverlaps(course c){
 		boolean[] cDays = c.getDaysOfWeek();
-		char[] overlaps = new char[0];
+		ArrayList<String> overlaps = new ArrayList<String>();
 		int counter = 0;
 		for(int i=0;i<5;i++){
 			if(this.daysOfWeek[i] == true && cDays[i] == true){
 				switch(i){
 				case 0:
-					overlaps[counter] = 'M';
+					overlaps.add("M");
 					break;
 				case 1:
-					overlaps[counter] = 'T';
+					overlaps.add("T");
 					break;
 				case 2:
-					overlaps[counter] = 'W';
+					overlaps.add("W");
 					break;
 				case 3:
-					overlaps[counter] = 'R';
+					overlaps.add("R");
 					break;
 				case 4:
-					overlaps[counter] = 'F';
+					overlaps.add("F");
 					break;
 				}
 				counter++;
 			}
 		}
+		
 		return overlaps;
 	}
 	
