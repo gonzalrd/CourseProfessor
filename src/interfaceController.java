@@ -39,6 +39,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -844,21 +845,43 @@ public class interfaceController {
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
+			int courseNum = -1;
+			int startTime = -1;
 			//then search by on of these
 			coursesOfProfessor = new ArrayList<course>();
 			if(!courseNumField.getText().isEmpty()){
-				int courseNum = Integer.parseInt(courseNumField.getText());
+				try{
+					
+				courseNum = Integer.parseInt(courseNumField.getText());
+			
+				}
+				catch(Exception e1){
+					JOptionPane.showMessageDialog(errorPanel, "Invalid Course Number.", "WARNING!",JOptionPane.WARNING_MESSAGE);	
 			}
-			//
+			}
 			if(!startTimeText.getText().isEmpty()){
-				int startTime = Integer.parseInt(startTimeText.getText());
+				try{
+				 startTime = Integer.parseInt(startTimeText.getText());
+					}
+					catch(Exception e1){
+						JOptionPane.showMessageDialog(errorPanel, "Invalid Time", "WARNING!",JOptionPane.WARNING_MESSAGE);	
+				}
 			}
 
 			//TODO: need query that will search for all three to subject and time and courseNum and time
 
 			//Search Only by Subject
 			try {
-				coursesOfProfessor = qc.searchBySubject(subjectBox.getSelectedItem().toString());
+				if(startTime == -1 && courseNum == -1) //both fields are empty only look up by subject
+					coursesOfProfessor = qc.searchBySubject(subjectBox.getSelectedItem().toString());
+				else if(startTime == -1 && courseNum != -1)//user has entered on course Name
+					coursesOfProfessor = qc.searchBySubjectAndName(subjectBox.getSelectedItem().toString(), Integer.toString(courseNum));
+				else if(startTime != -1 && courseNum == -1)//user had entered on a time and not a course name
+					coursesOfProfessor = qc.searchBySubjectandTime(subjectBox.getSelectedItem().toString(), startTime);
+				else if(startTime != -1 && courseNum != -1)
+					coursesOfProfessor = qc.searchBySubNamTime(subjectBox.getSelectedItem().toString(), Integer.toString(courseNum), startTime);
+				
+				
 			} catch (SQLException e1) {
 				// TODO BetterWasy of Handling this error
 				System.out.print("There an issue with the sqlite databse when running this query to search by subject");

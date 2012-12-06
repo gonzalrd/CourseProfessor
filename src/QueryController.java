@@ -223,4 +223,48 @@ public class QueryController {
 		return daysTF;
 	}
 
-}
+
+
+//the Last Three Queries for Searching by Subject, Searching by subject and Time and Searching by subject and course Number.
+
+//these go into the query Controller
+		public ArrayList<course> searchBySubjectandTime(String subject ,int time) throws SQLException{
+			//TODO: need to test this department
+			subject =  "\"" + subject + "\"";
+			
+			
+			String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + " AND  beginTime+" + time + " GROUP BY name;";
+			ArrayList<course> foundCourses = findCourses(query);
+			
+			
+		
+			return foundCourses;
+			
+		}
+		
+		public ArrayList<course> searchBySubjectAndName(String subject, String name) throws SQLException{
+			subject =  "\"" + subject + "\"";
+			
+
+			String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + " AND name LIKE '%" + name+ "' GROUP BY name ;";
+			ArrayList<course> foundCourses = findCourses(query);
+			
+			
+		
+			return foundCourses;
+			
+			
+		}
+		
+		public ArrayList<course> searchBySubNamTime(String subject, String name , int time) throws SQLException{
+			subject =  "\"" + subject + "\"";
+
+			String query = "SELECT * FROM COURSE WHERE DEPARTMENT = " + subject + " AND name LIKE '%" + name + "'" + "AND beginTime=" + time  + " GROUP BY name;";
+			ArrayList<course> foundCourses = findCourses(query);
+			
+			
+		
+			return foundCourses;
+		}
+		
+		}
