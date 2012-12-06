@@ -3,43 +3,58 @@ import java.util.ArrayList;
 
 public class schedule{
 	
-	private ArrayList courses;
+	private ArrayList<course> courses = new ArrayList<course>();
 	private int creditHours;
 	private int maxCreditHours;
 	
 	public schedule(){
-		courses = new ArrayList<course>();
-		creditHours = 0;
-		maxCreditHours = 20;
+		this.creditHours = 0;
+		this.maxCreditHours = 20;
 	}
 	public schedule(int maxCreditHours){
 		this.maxCreditHours = maxCreditHours;
-		courses = new ArrayList<course>();
-		creditHours = 0;
+		this.creditHours = 0;
 	}
 	
 	public schedule(ArrayList<course> curr){
 		for(course c : curr)
-			courses.add(c);
-		
+			this.courses.add(c);
+	}
+	
+	public String toString(){
+		String s="";
+		if(this.courses == null)
+			s="No classes added.";
+		else{
+			for(int i = 0; i< this.courses.size(); i++)
+				s += this.courses.get(i).toString()+"\n";
+		}
+		return s;
 	}
 	
 	public void addCourse(course toAdd){
 		boolean add = true;
-		for(int i = 0; i<courses.size();i++){
-			char[] sameDays = ((course) courses.get(i)).getOverlaps(toAdd);
-			int numConflicts = sameDays.length;
-			if(numConflicts > 0){
-				if(((course) courses.get(i)).getStartTime() == toAdd.getStartTime())
-					add = false;
-				if(((course) courses.get(i)).getEndTime() > toAdd.getStartTime())
-					add = false;
+		
+		System.out.println(toAdd.toString());
+		if(this.courses == null)
+			this.courses.add(new course(toAdd));
+		else{
+			for(int i = 0; i<courses.size();i++){
+				char[] sameDays = courses.get(i).getOverlaps(toAdd);
+				int numConflicts = sameDays.length;
+				if(numConflicts > 0){
+					if(courses.get(i).getStartTime() == toAdd.getStartTime())
+						add = false;
+					if(courses.get(i).getEndTime() > toAdd.getStartTime())
+						add = false;
+				}
 			}
-		} 
-		if(add)
-			courses.add(toAdd);
-		else
-			System.out.println("Conflict with another course!");
+		
+			if(add)
+				this.courses.add(new course(toAdd));
+			else
+				System.out.println("Conflict with another course!");
+		}
 	}
 	
 	public void removeCourse(course toRemove){

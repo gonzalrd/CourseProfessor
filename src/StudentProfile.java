@@ -10,17 +10,20 @@ public class StudentProfile extends Profile{
    
    //Constructors
    public StudentProfile() {
-	   id = -1;
-	   username ="";
-	   password="";
+	   this.id = -1;
+	   this.username ="";
+	   this.password="";
+	   this.studentSchedule = new schedule();
    }
    
    public StudentProfile(String name, String pw, int id) {
-      username = name;
-      password = pw;
+	  this.username = name;
+	  this.password = pw;
       this.id = id;
    }
-   
+   public void addToSchedule(course c){
+	   this.studentSchedule.addCourse(c);
+   }
    public schedule getSchedule(){
 	   return studentSchedule;
    }
@@ -43,15 +46,15 @@ public class StudentProfile extends Profile{
    }
    
    public void setPW(String pw) {
-      password = pw;
+	   this.password = pw;
    }
    
    public void setName(String name){
-	username = name;   
+	   this.username = name;   
    }
    
    public void setSchedule(ArrayList<course> curr){
-	   studentSchedule = new schedule(curr);
+	   this.studentSchedule = new schedule(curr);
    }
 }
    

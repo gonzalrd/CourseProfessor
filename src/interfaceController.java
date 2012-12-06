@@ -21,6 +21,7 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -653,7 +654,7 @@ public class interfaceController {
 			String feedbackForClass = "";
 			int firstIndex = arg0.getFirstIndex();
 			int selectedIndex = cProfessorList.getSelectedIndex();
-			
+			cTimeList.removeAll();
 			if(selectedIndex == -1)
 				selectedIndex = firstIndex;
 			
@@ -665,12 +666,7 @@ public class interfaceController {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			if(professorList.get(selectedIndex).getCourses()!=null)
-				cTimeList.setListData(professorList.get(selectedIndex).getCoursesAsStrings());
-			else{
-				String[] s = {"Select a professor..."};
-				cTimeList.setListData(s);
-			}
+			cTimeList.setListData(professorList.get(selectedIndex).getCoursesAsStrings());
 			viewFeedback.setText(feedbackForClass);
 		}
 	}
@@ -679,8 +675,23 @@ public class interfaceController {
 			
 			//TODO: needs to get selected time and error handling if nothing is selected.
 			//needs to run update that adds to user schedule for the schedule class
-			
-			cl_Content.show(Content, "Schedule");
+			int profIndex = cProfessorList.getSelectedIndex();
+			int timeSlot = cTimeList.getSelectedIndex();
+			if(profIndex == -1 || timeSlot == -1)
+				JOptionPane.showMessageDialog(errorPanel, "A professor or time slot is not selected!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+			else{
+				course toAdd = new course(professorList.get(profIndex).getCourses().get(timeSlot));
+				user.addToSchedule(toAdd);
+				try {
+					qc.addCourseToSchedule(user, toAdd);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(errorPanel, "Could not save to database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				}
+				scheduleDisplay.setText(user.getSchedule().toString());
+				cl_Content.show(Content, "Schedule");
+			}
 		}
 	}
 	private class BtnLeaveFeedbackListener implements ActionListener{
@@ -725,7 +736,7 @@ public class interfaceController {
 			String usrFeedBack= feedbacktxt.getText();
 			
 			if(fPickProf.isSelectionEmpty()){
-				JOptionPane.showMessageDialog(errorPanel, "please select a professor to leave feedback", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(errorPanel, "Please select a professor to leave feedback", "WARNING!",JOptionPane.WARNING_MESSAGE);
 				
 			}
 			else{
@@ -825,6 +836,7 @@ public class interfaceController {
 	}
 	private class BtnViewScheduleListener implements ActionListener{		
 		public void actionPerformed(ActionEvent e) {
+			scheduleDisplay.setText(user.getSchedule().toString());
 			cl_Content.show(Content, "Schedule");
 		}
 	}

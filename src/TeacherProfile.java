@@ -49,6 +49,10 @@ public class TeacherProfile extends Profile {
 					 
 	   return s;
    }
+   
+   public int getNumCourses(){
+	   return courses.size();
+   }
    //"Setters"
    public void setName(String n) {
       name = n;

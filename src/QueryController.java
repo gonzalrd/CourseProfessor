@@ -49,15 +49,6 @@ public class QueryController {
 		return curr;
 	}
 	
-
-	/** Adds a new course into the students schedule that is kept track of in java and the database
-	 * 
-	 * @param c
-	 * @throws SQLException
-	 */
-	public void addCourseToSchedule(course c , StudentProfile s) throws SQLException{
-		stat.executeUpdate("INSERT INTO SCHEDULE VALUES(" + s.getID() +"," + c.getCourseId() + ");");
-	}
 	//helper method that finds and creates an arraylist of course given a qeury.
 	
 	

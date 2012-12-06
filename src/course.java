@@ -108,4 +108,12 @@ public class course{
 		for(int i=0;i<5;i++)
 			this.daysOfWeek[i] = d[i];
 	}
+	
+	public String toString(){
+		String s = "";
+		
+		s = this.courseName +" " +getDOW() + " [" + getStartTime() + "-" + getEndTime() + "]";
+		
+		return s;
+	}
 }
