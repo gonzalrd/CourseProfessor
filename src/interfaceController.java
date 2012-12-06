@@ -655,7 +655,6 @@ public class interfaceController {
 			String feedbackForClass = "";
 			int firstIndex = arg0.getFirstIndex();
 			int selectedIndex = cProfessorList.getSelectedIndex();
-			cTimeList.removeAll();
 			if(selectedIndex == -1)
 				selectedIndex = firstIndex;
 			
@@ -664,9 +663,7 @@ public class interfaceController {
 			try {
 				feedbackForClass = qc.getProfFeedbackForCourse(viewCourse, professorList.get(selectedIndex));
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				JOptionPane.showMessageDialog(errorPanel, "Could not load feedback from database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(errorPanel, "Could not load feedback from database!", "WARNING!",JOptionPane.ERROR_MESSAGE);
 			}
 			cTimeList.setListData(professorList.get(selectedIndex).getCoursesAsStrings());
 			viewFeedback.setText(feedbackForClass);
@@ -687,11 +684,13 @@ public class interfaceController {
 				if(success){
 					try {
 						qc.addCourseToSchedule(user, toAdd);
+						JOptionPane.showMessageDialog(errorPanel, toAdd.getCourseName()+" added to your schedule.", "Success!",JOptionPane.INFORMATION_MESSAGE);
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(errorPanel, "Could not save to database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+						JOptionPane.showMessageDialog(errorPanel, "Could not save to database!", "WARNING!",JOptionPane.ERROR_MESSAGE);
 					}
 					scheduleDisplay.setText(user.getSchedule().toString());
 					cl_Content.show(Content, "Schedule");
+					frame.setSize(new Dimension(500,445));
 				}else
 					JOptionPane.showMessageDialog(errorPanel, "A course conflict prevented the course from being added!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			}
@@ -715,6 +714,7 @@ public class interfaceController {
 			}
 			
 			cl_Content.show(Content, "FeedBack");
+			frame.setSize(new Dimension(500,445));
 		}
 	}
 	private class BtnBackToListener implements ActionListener{
@@ -739,8 +739,7 @@ public class interfaceController {
 			String usrFeedBack= feedbacktxt.getText();
 			
 			if(fPickProf.isSelectionEmpty()){
-				JOptionPane.showMessageDialog(errorPanel, "Please select a professor to leave feedback", "WARNING!",JOptionPane.WARNING_MESSAGE);
-				
+				JOptionPane.showMessageDialog(errorPanel, "No professor selected!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			}
 			else{
 				int selectedIndex = fPickProf.getSelectedIndex();
@@ -748,9 +747,9 @@ public class interfaceController {
 				try {
 					
 					qc.addCourseFeedBack(viewCourse, user , professorList.get(selectedIndex), (double) rating, usrFeedBack);
+					JOptionPane.showMessageDialog(errorPanel, "Feedback added! Thanks!", "Success!",JOptionPane.INFORMATION_MESSAGE);
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(errorPanel, "User FeedBack was not added to the Database", "WARNING!",JOptionPane.WARNING_MESSAGE);
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(errorPanel, "User feedBack was not added to the Database.", "WARNING!",JOptionPane.ERROR_MESSAGE);
 				}
 				
 				//
@@ -786,7 +785,7 @@ public class interfaceController {
 				
 			} catch (SQLException e1) {
 				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				JOptionPane.showMessageDialog(errorPanel, "Error connecting to database.", "WARNING!",JOptionPane.ERROR_MESSAGE);
 			}
 			String [] found = new String[professorList.size()];
 			
@@ -795,6 +794,7 @@ public class interfaceController {
 			cProfessorList.setListData(found);
 			cProfessorList.setSelectedValue(found[0], true);
 			cl_Content.show(Content, "CoursePage");
+			frame.setSize(new Dimension(500,445));
 			//TODO use method in QueryController to do search
 		}
 	}
@@ -816,31 +816,31 @@ public class interfaceController {
 			try {
 				coursesOfProfessor = qc.searchbyProf(profNametxt.getText());
 			} catch (SQLException e1) {
-				// TODO BetterWasy of Handling this error
-				System.out.print("There an issue with the sqlite databse when running this query to search by subject");
+				JOptionPane.showMessageDialog(errorPanel, "Error connecting to the database!", "WARNING!",JOptionPane.ERROR_MESSAGE);
 			}
-			
-		//Do this to add found courses to string on next page.
-			if(coursesOfProfessor!=null){
+
+			//Do this to add found courses to string on next page.
+			if(profNametxt.getText()=="" || coursesOfProfessor.size()==0){
+				JOptionPane.showMessageDialog(errorPanel, "Enter a valid professor name!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+				profNametxt.setText("");
+			}else{
 				String [] found = new String[coursesOfProfessor.size()];
-				
+
 				for(int i = 0; i < coursesOfProfessor.size(); i++)
 					found[i] = coursesOfProfessor.get(i).getCourseName();
-	
-				if(found !=null)
-					resultslist.setListData(found);
-				else{
-					String found1 [] = {"professor does not exist in system"}; 
-					resultslist.setListData(found1);
-				}
+
+				resultslist.setListData(found);
+				profNametxt.setText("");
+				cl_Content.show(Content, "SearchResults");
+				frame.setSize(new Dimension(500,445));
 			}
-			cl_Content.show(Content, "SearchResults");
 		}
 	}
 	private class BtnViewScheduleListener implements ActionListener{		
 		public void actionPerformed(ActionEvent e) {
 			scheduleDisplay.setText(user.getSchedule().toString());
 			cl_Content.show(Content, "Schedule");
+			frame.setSize(new Dimension(500,445));
 		}
 	}
 	private class BtnFindCoursesActionListener implements ActionListener {
@@ -934,26 +934,43 @@ public class interfaceController {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				char[] pass = PassTxt.getPassword();
-				String pw = new String(pass);
-				
-				qc.addNewStudent("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
-				
-				user = qc.loggedIn("\""+UserNameTxt.getText()+"\"","\""+pw+"\"");
+				String pw = new String("\""+pass+"\"");
+				String usr = "\""+UserNameTxt.getText()+"\"";
+				boolean usernameExists = qc.doesUsernameExist(usr);
+				boolean check1 = false, check2 = false, check3 = false;
+				if(usernameExists){
+					JOptionPane.showMessageDialog(errorPanel, "Username already taken, enter a different one!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+					UserNameTxt.setText("");
+					PassTxt.setText("");
+					check1=false;
+				}else{
+					check1=true;
+					if(usr.length()<8 || usr.length()>32){
+						JOptionPane.showMessageDialog(errorPanel, "Enter a username between 6 and 30 characters!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+						UserNameTxt.setText("");
+						PassTxt.setText("");
+						check2=false;
+					}else{
+						check2=true;
+					}
+					if(pw.length()<8 || pw.length()>22){
+						JOptionPane.showMessageDialog(errorPanel, "Enter a password between 6 and 20 characters!", "WARNING!",JOptionPane.WARNING_MESSAGE);
+						UserNameTxt.setText("");
+						PassTxt.setText("");
+						check3=false;
+					}else{
+						check3=true;
+					}
+				}
+				if(check1 && check2 && check3){
+					qc.addNewStudent(usr,pw);
+					user = qc.loggedIn(usr,pw);
+					JOptionPane.showMessageDialog (errorPanel, usr+" successfully registered!", "Welcome!", JOptionPane.INFORMATION_MESSAGE);
+					cl_Content.show(Content, "findCourses");
+					frame.setSize(new Dimension(313,380));
+				}
 			} catch (SQLException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-				//Student couldn't be added
-			}
-			
-			//TODO check for already in use and send error message
-			
-			if(user.getID()==-1){
-				JOptionPane.showMessageDialog(errorPanel, "Error register the user, enter valid, unique username/password.", "WARNING!",JOptionPane.WARNING_MESSAGE);
-				UserNameTxt.setText("");
-				PassTxt.setText("");
-			}else{
-				cl_Content.show(Content, "findCourses");
-				frame.setSize(new Dimension(313,380));
+				JOptionPane.showMessageDialog(errorPanel, "Student could not be added to the database!", "WARNING!",JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}

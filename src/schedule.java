@@ -23,7 +23,7 @@ public class schedule{
 	
 	public String toString(){
 		String s="";
-		if(this.courses == null)
+		if(this.courses.size()==0)
 			s="No classes added.";
 		else{
 			for(int i = 0; i< this.courses.size(); i++)

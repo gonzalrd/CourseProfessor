@@ -50,6 +50,19 @@ public class QueryController {
 	//helper method that finds and creates an arraylist of course given a qeury.
 	
 	
+	public boolean doesUsernameExist(String username) throws SQLException{
+		boolean check = false;
+		String query = "SELECT * FROM USER WHERE name = "+username+";";
+		ResultSet rs = stat.executeQuery(query);
+		int counter = 0;
+		while(rs.next()){
+			counter++;
+		}
+		if(counter > 0)
+			check = true;
+		return check;
+	}
+	
 	
 	//helper method that finds and creates an array list of course given a query.
 
